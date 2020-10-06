@@ -24,9 +24,9 @@
 
                         <!--================publicación Area =================-->
                         @forelse( $posts as $post)
-                            <article class="blog_item card">
-                                <div class="blog_item_img">
-                                    {{--                                <img class="card-img rounded-0" src="/assets/img/blog/single_blog_1.png" alt="">--}}
+                            <article class="blog_item">
+                                <div class="blog_item_img card-img">
+                                    <img class="card-img rounded-0" src="/assets/img/blog/single_blog_1.png" alt="">
                                     <a href="#" class="blog_item_date">
                                         <h3>{{ optional($post->published_at)->locale('es')->translatedFormat('l d') }}</h3>
                                         <p>{{ optional($post->published_at)->locale('es')->translatedFormat('\d\e F \d\e\l\ Y') }}</p>
@@ -39,6 +39,7 @@
                                     </a>
                                     <p>{{ $post->excerpt }}</p>
                                     <ul class="blog-info-link">
+
                                         <li><a href="#"><i class="fa fa-user"></i> Travel, Lifestyle</a></li>
                                         <li><a href="#"><i class="fa fa-flag"></i> {{  $post->category->name }}</a></li>
                                     </ul>

@@ -11,6 +11,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UserSeeder::class);
+        //php artisan make:seeder nombredelatablacon"s"TableSeeder
+         $this->call(PostsTableSeeder::class);
     }
 }
