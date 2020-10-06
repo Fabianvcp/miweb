@@ -17,4 +17,10 @@ class Post extends Model
         //retonarme este post-> que pertenece a una categoria
         return $this->belongsTo(Category::class);
     }
+
+    public function tags()
+    {   //Pertenece a muchos
+        return $this->belongsToMany(Tag::class);
+
+    }
 }

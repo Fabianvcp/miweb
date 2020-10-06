@@ -39,8 +39,9 @@
                                     </a>
                                     <p>{{ $post->excerpt }}</p>
                                     <ul class="blog-info-link">
-
-                                        <li><a href="#"><i class="fa fa-user"></i> Travel, Lifestyle</a></li>
+                                        @foreach( $post->tags as $tag )
+                                        <li><a href="#"><i class="fa fa-tag"></i> #{{ $tag->name }}</a></li>
+                                        @endforeach
                                         <li><a href="#"><i class="fa fa-flag"></i> {{  $post->category->name }}</a></li>
                                     </ul>
                                 </div>
