@@ -17,7 +17,7 @@ return [
     'title' => 'Codex wolf',
     //si en una pogina tiene otro titulo queremos poner antes un prefijo
     // Codex wolf | titulo en la vista
-    'title_prefix' => '',
+    'title_prefix' => 'Codex Wolf| ',
     //Postfix seria igual a titulo de la vista|codex wolf
     'title_postfix' => '',
 
@@ -321,6 +321,7 @@ return [
         [
             'text'    => 'Publicaciones',
             'icon'    => 'fas fa-fw fa-bars fa-lg',
+            'url'  => 'admin/post*',
             'submenu' => [
                 [
                     'text' => 'Ver todas las publicaciones',
@@ -329,7 +330,7 @@ return [
                 ],
                 [
                     'text' => 'Crear una publicación',
-                    'url'  => '#',
+                    'route'  => 'admin.posts.create',
                     'icon' => 'fas fa-plus-circle fa-lg',
                 ],
                 [
@@ -421,17 +422,32 @@ return [
                 [
                     'type' => 'js',
                     'asset' => false,
-                    'location' => '//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js',
+                    'location' => '/adminlte/datatables/jquery.dataTables.min.js',
                 ],
                 [
                     'type' => 'js',
                     'asset' => false,
-                    'location' => '//cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js',
+                    'location' => '/adminlte/datatables/dataTables.bootstrap4.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '/adminlte/datatables/dataTables.responsive.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '/adminlte/datatables/responsive.bootstrap4.min.js',
                 ],
                 [
                     'type' => 'css',
                     'asset' => false,
-                    'location' => '//cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css',
+                    'location' => '/adminlte/datatables/dataTables.bootstrap4.min.css',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => false,
+                    'location' => '/adminlte/datatables/responsive.bootstrap4.min.css',
                 ],
             ],
         ],
@@ -441,12 +457,17 @@ return [
                 [
                     'type' => 'js',
                     'asset' => false,
-                    'location' => '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js',
+                    'location' => '/adminlte/select2/js/select2.min.js',
                 ],
                 [
                     'type' => 'css',
                     'asset' => false,
-                    'location' => '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.css',
+                    'location' => '/adminlte/select2/css/select2.min.css',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => false,
+                    'location' => '/adminlte/select2-bootstrap4-theme/css/select2-bootstrap4.min.css',
                 ],
             ],
         ],

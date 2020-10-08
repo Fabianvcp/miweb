@@ -21,13 +21,15 @@ Route::get('blog', 'PagesController@blog')->name('blog');
 
 Auth::routes(['register' => false]);
 
-Route::get('/home', 'HomeController@index')->name('home');
+
 Route::group([
     'prefix'=>'admin',
     'namespace' => 'admin',
     'middleware' => 'auth'
      ], function (){
+    Route::get('home', 'HomeController@index')->name('home');
 
     Route::get('post', 'PostsController@index')->name('admin.posts.index');
+    Route::get('post/create', 'PostsController@create')->name('admin.posts.create');
 
 });
