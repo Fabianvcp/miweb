@@ -1,0 +1,50 @@
+@extends('adminlte::page')
+
+{{--@section('title', 'Dashboard')--}}
+
+@section('content_header')
+    <h1>Bienvenido</h1>
+@stop
+
+@section('content')
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">{{ __('Dashboard') }}</div>
+
+                <div class="card-body">
+                    @if ( session('status'))
+                        <div class="alert alert-success" role="alert">
+                            {{ session('status')}}
+                        </div>
+                    @endif
+
+                    {{ __('You are logged in!') }} {{ auth()->user()->name }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
+
+
+@section('footer')
+
+        <!-- To the right -->
+        <div class="float-right d-none d-sm-inline">
+            Anything you want
+        </div>
+        <!-- Default to the left -->
+        <strong class="text-center">Copyright &copy; 2014-2019 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
+
+@stop
+
+
+@section('css')
+{{--    <link rel="stylesheet" href="/css/admin_custom.css">--}}
+@stop
+
+@section('js')
+    <script> console.log('Hi!'); </script>
+@stop

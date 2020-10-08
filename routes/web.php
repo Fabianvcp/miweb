@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,11 +13,21 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+//route  de la plantilla externas
+Route::get('/', 'PagesController@inicio')->name('inicio');
+Route::get('blog', 'PagesController@blog')->name('blog');
 
-Route::get('/', function () {
-    return view('welcome');
-});
-Route::get('blog', function (){
-    $posts = App\Post::latest('published_at')->get();
-    return view('page.blog', compact('posts'));
+//routes por dentro del panel
+
+Auth::routes(['register' => false]);
+
+Route::get('/home', 'HomeController@index')->name('home');
+Route::group([
+    'prefix'=>'admin',
+    'namespace' => 'admin',
+    'middleware' => 'auth'
+     ], function (){
+
+    Route::get('post', 'PostsController@index')->name('admin.posts.index');
+
 });
