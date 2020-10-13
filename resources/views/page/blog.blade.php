@@ -1,32 +1,21 @@
 @extends('base')
 
 @section('content')
-    <!-- bradcam_area  -->
-    <div class="bradcam_area breadcam_bg_4">
-        <div class="container">
-            <div class="row">
-                <div class="col-xl-12">
-                    <div class="bradcam_text text-center">
-                        <h3>Blog</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--/ bradcam_area  -->
 
+@include('partials.breadcam')
     <!--================Blog Area =================-->
     <section class="blog_area section-padding">
         <div class="container">
             <div class="row">
+                <!--================right sidebar Area =================-->
                 <div class="col-lg-8 mb-5 mb-lg-0">
+                    <!--================publicación Area =================-->
                     <div class="blog_left_sidebar" >
 
-                        <!--================publicación Area =================-->
                         @forelse( $posts as $post)
                             <article class="blog_item">
                                 <div class="blog_item_img card-img">
-                                    <img class="card-img rounded-0" src="/assets/img/blog/single_blog_1.png" alt="">
+                                    <img class="card-img rounded-0" src="/assets/img/blog/single_blog_2.png" alt="">
                                     <a href="#" class="blog_item_date">
                                         <h3>{{ optional($post->published_at)->locale('es')->translatedFormat('l d') }}</h3>
                                         <p>{{ optional($post->published_at)->locale('es')->translatedFormat('\d\e F \d\e\l\ Y') }}</p>
@@ -34,7 +23,7 @@
                                 </div>
 
                                 <div class="blog_details card-body">
-                                    <a class="d-inline-block" href="single-blog.html">
+                                    <a class="d-inline-block" href="blog/{{ $post->url }}">
                                         <h2>{{$post->title}}</h2>
                                     </a>
                                     <p>{{ $post->excerpt }}</p>
@@ -42,12 +31,13 @@
                                         @foreach( $post->tags as $tag )
                                         <li><a href="#"><i class="fa fa-tag"></i> #{{ $tag->name }}</a></li>
                                         @endforeach
+
                                         <li><a href="#"><i class="fa fa-flag"></i> {{  $post->category->name }}</a></li>
                                     </ul>
                                 </div>
                             </article>
-                            @empty
 
+                        @empty
                             <article class="blog_item card">
 
                                 <div class="blog_details card-body">
@@ -81,15 +71,29 @@
                                 </li>
                             </ul>
                         </nav>
-                        <!--================/pagination Area =================-->
-
+                       <!--================/pagination Area =================-->
                     </div>
+                    <!--================right sidebar Area =================-->
                 </div>
 
-                <!--================right sidebar Area =================-->
                 <div class="col-lg-4">
                     <div class="blog_right_sidebar">
 
+                        <aside class="single_sidebar_widget search_widget">
+                            <form action="#">
+                                <div class="form-group">
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" placeholder='Search Keyword'
+                                               onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Keyword'">
+                                        <div class="input-group-append">
+                                            <button class="btn" type="button"><i class="ti-search"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn"
+                                        type="submit">Search</button>
+                            </form>
+                        </aside>
                         <!--================Category Area =================-->
                         <aside class="single_sidebar_widget post_category_widget">
                             <h4 class="widget_title">Category</h4>
@@ -245,6 +249,18 @@
                             </ul>
                         </aside>
                         <!--================instagram feeds Area =================-->
+
+                        <aside class="single_sidebar_widget newsletter_widget">
+                            <h4 class="widget_title">Newsletter</h4>
+                            <form action="#">
+                                <div class="form-group">
+                                    <input type="email" class="form-control" onfocus="this.placeholder = ''"
+                                           onblur="this.placeholder = 'Enter email'" placeholder='Enter email' required>
+                                </div>
+                                <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn"
+                                        type="submit">Subscribe</button>
+                            </form>
+                        </aside>
 
                     </div>
                 </div>

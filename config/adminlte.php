@@ -17,7 +17,7 @@ return [
     'title' => 'Codex wolf',
     //si en una pogina tiene otro titulo queremos poner antes un prefijo
     // Codex wolf | titulo en la vista
-    'title_prefix' => 'Codex Wolf| ',
+    'title_prefix' => 'Codex Wolf | ',
     //Postfix seria igual a titulo de la vista|codex wolf
     'title_postfix' => '',
 
@@ -54,7 +54,7 @@ return [
     //ubicación del logo se mostrará en el menu lateral
     'logo_img' => 'vendor/adminlte/dist/img/logo.png',
     //estilos del logotipo
-    'logo_img_class' => 'brand-image-xs rounded',
+    'logo_img_class' => 'brand-image-xs rounded ',
     //si tengo un logo más grande pasar la ubicación
     'logo_img_xl' => null,
     //estilo de la imagen xl
@@ -108,7 +108,7 @@ return [
     //se mantien fijo el navegador del lado izquierdo
     'layout_fixed_sidebar' => true,
     //se mantiene fijo el navegador superior
-    'layout_fixed_navbar' => true,
+    'layout_fixed_navbar' => null,
     //en el caso de tener un footer lo tendriamos fixeado
     'layout_fixed_footer' => null,
 
@@ -183,7 +183,7 @@ return [
     // puede configurar esta opción en true, falseo 'md'habilitarla para tabletas pequeñas y pantallas más grandes (> = 768px).
     'sidebar_mini' => true,
     //Activa / desactiva el modo contraído de forma predeterminada.
-    'sidebar_collapse' => true,
+    'sidebar_collapse' => false,
     //Habilita / deshabilita el colapso automático estableciendo un ancho mínimo para colapsar automáticamente.
     'sidebar_collapse_auto_size' => false,
     //Habilita / deshabilita la secuencia de comandos para recordar y contraer.
@@ -241,7 +241,7 @@ return [
 
     'use_route_url' => false,
 
-    'dashboard_url' => '/',
+    'dashboard_url' => 'admin/home/',
 
     'logout_url' => 'logout',
 
@@ -306,12 +306,12 @@ return [
 //            'label'       => 4,
 //            'label_color' => 'success',
         ],
-        ['header' => 'account_settings'],
+        ['header' => 'Area de Publicación'],
 //        [
 //            'text' => 'profile',
 //            'url'  => 'admin/settings',
 //            'icon' => 'fas fa-fw fa-bars',
-//            'can' =>'nivel del usuario'
+//            'can' =>'permiso'
 //        ],
 //        [
 //            'text' => 'change_password',
@@ -324,7 +324,7 @@ return [
             'url'  => 'admin/post*',
             'submenu' => [
                 [
-                    'text' => 'Ver todas las publicaciones',
+                    'text' => 'Ver publicaciones',
                     'route'  => 'admin.posts.index',
                     'icon' => 'far fa-list-alt fa-lg'
                 ],
@@ -333,34 +333,24 @@ return [
                     'route'  => 'admin.posts.create',
                     'icon' => 'fas fa-plus-circle fa-lg',
                 ],
+            ],
+        ],
+        ['header' => 'Portfolio'],
+        [
+            'text'    => 'Publicaciones',
+            'icon'    => 'fas fa-folder fa-lg',
+            'url'  => 'admin/post*',
+            'submenu' => [
                 [
-                    'text'    => 'level_one',
-                    'url'     => '#',
-                    'submenu' => [
-                        [
-                            'text' => 'level_two',
-                            'url'  => '#',
-                        ],
-                        [
-                            'text'    => 'level_two',
-                            'url'     => '#',
-                            'submenu' => [
-                                [
-                                    'text' => 'level_three',
-                                    'url'  => '#',
-                                ],
-                                [
-                                    'text' => 'level_three',
-                                    'url'  => '#',
-                                ],
-                            ],
-                        ],
-                    ],
+                    'text' => 'Ver publicaciones',
+                    'route'  => 'admin.portfolio.index',
+                    'icon' => 'far fa-list-alt fa-lg'
                 ],
-                [
-                    'text' => 'level_one',
-                    'url'  => '#',
-                ],
+//                [
+//                    'text' => 'Crear una publicación',
+//                    'route'  => 'admin.posts.create',
+//                    'icon' => 'fas fa-plus-circle fa-lg',
+//                ],
             ],
         ],
         ['header' => 'labels'],
@@ -457,7 +447,7 @@ return [
                 [
                     'type' => 'js',
                     'asset' => false,
-                    'location' => '/adminlte/select2/js/select2.min.js',
+                    'location' => '/adminlte/select2/js/select2.full.min.js',
                 ],
                 [
                     'type' => 'css',
@@ -467,7 +457,7 @@ return [
                 [
                     'type' => 'css',
                     'asset' => false,
-                    'location' => '/adminlte/select2-bootstrap4-theme/css/select2-bootstrap4.min.css',
+                    'location' => '/adminlte/select2-bootstrap4-theme/select2-bootstrap4.css',
                 ],
             ],
         ],
@@ -478,6 +468,32 @@ return [
                     'type' => 'js',
                     'asset' => false,
                     'location' => '//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.bundle.min.js',
+                ],
+            ],
+        ],
+        'Moment' => [
+            'active' => false,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '/adminlte/moment/moment.min.js',
+                ]
+
+            ],
+        ],
+        'Tempus' => [
+            'active' => false,
+            'files' => [
+                [
+                    'type' => 'css',
+                    'asset' => false,
+                    'location' => '/adminlte/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '/adminlte/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js',
                 ],
             ],
         ],
@@ -492,18 +508,34 @@ return [
             ],
         ],
         'Pace' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'css',
+                    'asset' => true,
+                    'location' => 'https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/black/pace-theme-corner-indicator.min.css',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js',
+                ],
+            ],
+        ],
+        'Ckeditor' => [
+            'active' => false,
+            'files' => [
+                [
+                    'type' => 'js',
                     'asset' => false,
-                    'location' => '//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-center-radar.min.css',
+                    'location' => '/adminlte/ckeditor/ckeditor.js',
                 ],
                 [
                     'type' => 'js',
                     'asset' => false,
-                    'location' => '//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js',
+                    'location' => '/adminlte/ckeditor/lang/es.js',
                 ],
+
             ],
         ],
     ],

@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 //route  de la plantilla externas
 Route::get('/', 'PagesController@inicio')->name('inicio');
 Route::get('blog', 'PagesController@blog')->name('blog');
+Route::get('blog/{post}', 'PostsController@show');
 
 //routes por dentro del panel
 
@@ -31,5 +32,9 @@ Route::group([
 
     Route::get('post', 'PostsController@index')->name('admin.posts.index');
     Route::get('post/create', 'PostsController@create')->name('admin.posts.create');
+    Route::post('post', 'PostsController@store')->name('admin.posts.store');
+
+    Route::get('portfolio', 'PortfoliosController@index')->name('admin.portfolio.index');
+    //Route::get('post/create', 'PostsController@create')->name('admin.posts.create');
 
 });

@@ -11,7 +11,9 @@ class PagesController extends Controller
         return view('welcome');
     }
     public function blog(){
-        $posts = Post::latest('published_at')->get();
+       //
+        $posts = Post::published()->get();
+
         return view('page.blog', compact('posts'));
     }
 }
