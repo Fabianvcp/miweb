@@ -8,9 +8,15 @@
 
 @section('content')
     <div class="col-12">
+        <button type="button" class="btn btn-secondary text-center mb-3" data-toggle="modal" data-target="#modal-secondary">
+            Crear nueva publicación
+        </button>
+
         <div class="card card text-white bg-dark ">
             <div class="card-header">
                 <h3 class="card-title">Listados de publicaciones</h3>
+
+
             </div>
             <!-- /.card-header -->
             <div class="card-body  container-fluid" >
@@ -50,6 +56,44 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="modal-secondary">
+        <form action="{{ route('admin.posts.store') }}" role="form" method="POST">
+            @csrf
+            <div class="modal-dialog">
+            <div class="modal-content bg-dark">
+                <div class="modal-header">
+                    <h4 class="modal-title">Título de la publicación</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <!-- text input -->
+                            <div class="form-group ">
+                                <label for="title"></label>
+                                <input id="title" name="title" value="{{ old('title') }}"  type="text" class="form-control {{ $errors->has('title') ? 'is-invalid' : '' }}" placeholder="Titulo" required>
+                                {{--                                                mensaje de error--}}
+                                <div class="invalid-tooltip">
+                                    {{ $errors->first('title')}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-outline-light" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-outline-light">Crear publicación</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+        </form>
+    </div>
+    <!-- /.modal -->
+
 @endsection
 
 
@@ -71,6 +115,7 @@
 @stop
 
 @section('js')
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" ></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js" ></script>
     <script>

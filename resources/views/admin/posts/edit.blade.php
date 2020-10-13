@@ -10,8 +10,10 @@
 @stop
 
 @section('content')
-    <form action="{{ route('admin.posts.store') }}" role="form" method="POST">
+
+    <form action="{{ route('admin.posts.update', $post)}}" method="post">
         @csrf
+        @method( 'PUT')
         <section class="content">
             <div class="container-fluid">
                 <div class="row">
@@ -24,43 +26,41 @@
                             </div>
                             <!-- /.card-header -->
                             <!-- form start -->
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <!-- text input -->
-                                            <div class="form-group ">
-                                                <label for="title">Título de la publicación</label>
-                                                <input id="title" name="title" value="{{ old('title') }}"  type="text" class="form-control {{ $errors->has('title') ? 'is-invalid' : '' }}" placeholder="Titulo">
-{{--                                                mensaje de error--}}
-                                                <div class="invalid-tooltip">
-                                                   {{ $errors->first('title')}}
-                                                </div>
-
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <!-- textarea -->
-                                            <div class="form-group">
-                                                <label for="body">Contenido de la publicación</label>
-                                                <textarea id="body" name="body" class="{{ $errors->has('body') ? 'is-invalid' : '' }}">{{ old('body') }}</textarea>
-                                                {{--                                                mensaje de error--}}
-                                                <div class="invalid-tooltip">
-                                                    {{ $errors->first('body')}}
-                                                </div>
-
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <!-- text input -->
+                                        <div class="form-group ">
+                                            <label for="title">Título de la publicación</label>
+                                            <input id="title" name="title" value="{{ old('title', $post->title) }}"  type="text" class="form-control {{ $errors->has('title') ? 'is-invalid' : '' }}" placeholder="Titulo">
+                                            {{--                                                mensaje de error--}}
+                                            <div class="invalid-tooltip">
+                                                {{ $errors->first('title')}}
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
-                                <!-- /.card-body -->
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <!-- textarea -->
+                                        <div class="form-group">
+                                            <label for="body">Contenido de la publicación</label>
+                                            <textarea id="body" name="body" class="{{ $errors->has('body') ? 'is-invalid' : '' }}">{{ old('body',$post->body ? $post->body : null) }}</textarea>
+                                            {{--                                                mensaje de error--}}
+                                            <div class="invalid-tooltip">
+                                                {{ $errors->first('body')}}
+                                            </div>
 
-                                <div class="card-footer">
-
+                                        </div>
+                                    </div>
                                 </div>
+
+                            </div>
+                            <!-- /.card-body -->
+
+                            <div class="card-footer">
+
+                            </div>
                         </div>
                         <!-- /.card -->
 
@@ -83,7 +83,7 @@
 
                                             <label for="datetimepicker2">Fecha de publicación</label>
                                             <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
-                                                <input name="published_at" type="text" class="form-control datetimepicker-input  {{ $errors->has('published_at') ? 'is-invalid' : '' }}" data-target="#datetimepicker2"/>
+                                                <input name="published_at" value="{{ old('published_at',$post->published_at ? $post->published_at : null) }}" type="text" class="form-control datetimepicker-input  {{ $errors->has('published_at') ? 'is-invalid' : '' }}" data-target="#datetimepicker2"/>
                                                 <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
                                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                                 </div>
@@ -97,36 +97,14 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                   <div class="col-12">
-                                            <!-- textarea -->
-                                       <div class="form-group">
-                                           <label for="excerpt">Extracto publicación</label>
-                                           <textarea name="excerpt" id="excerpt" class="form-control {{ $errors->has('excerpt') ? 'is-invalid' : '' }}" placeholder="Resumen de la publicación"></textarea>
-                                           {{--                                                mensaje de error--}}
-                                           <div class="invalid-tooltip">
-                                               {{ $errors->first('excerpt')}}
-                                           </div>
-
-                                       </div>
-                                   </div>
-                                </div>
-                                <div class="row">
                                     <div class="col-12">
+                                        <!-- textarea -->
                                         <div class="form-group">
-                                            <label id="select2">Selecciona una categoria</label>
-                                            <div class="select2-dark">
-                                                <select name="category" class="select2 {{ $errors->has('tags[]') ? 'is-invalid' : '' }}" data-placeholder="Selecciona una categoria"  data-dropdown-css-class="select2-dark" style="width: 100%;"  >
-
-                                                 @foreach( $categories as $category)
-
-                                                    <option value="{{$category->id}}"  {{ old('category') == $category->id ?  'select' : '' }}>{{ $category->name }}</option>
-
-                                                    @endforeach
-                                                </select>
-                                            </div>
+                                            <label for="excerpt">Extracto publicación</label>
+                                            <textarea name="excerpt" id="excerpt" class="form-control {{ $errors->has('excerpt') ? 'is-invalid' : '' }}" placeholder="Resumen de la publicación">{{ old('excerpt',$post->excerpt ? $post->excerpt : null) }}</textarea>
                                             {{--                                                mensaje de error--}}
                                             <div class="invalid-tooltip">
-                                                {{ $errors->first('tags[]', 'el campo etiquetas es obligatorio')}}
+                                                {{ $errors->first('excerpt')}}
                                             </div>
 
                                         </div>
@@ -135,12 +113,34 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="form-group">
-                                            <label  class="{{ $errors->has('tags[]') ? 'is-invalid' : '' }}">Etiquetas</label>
+                                            <label id="select2">Selecciona una categoria</label>
                                             <div class="select2-dark">
-                                                <select name="tags[]" class="select2" multiple="multiple" data-placeholder="Selecciona una o más etiquetas"  data-dropdown-css-class="select2-dark" style="width: 100%;" >
+                                                <select name="category_id" class="select2 {{ $errors->has('category_id') ? 'is-invalid' : '' }}" data-placeholder="Selecciona una categoria"  data-dropdown-css-class="select2-dark" style="width: 100%;"  >
+
+                                                    @foreach( $categories as $category)
+
+                                                        <option value="{{$category->id}}"  {{ old('category_id', $post->category_id) == $category->id ?  'select' : '' }}>{{ $category->name }}</option>
+
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            {{--                                                mensaje de error--}}
+                                            <div class="invalid-tooltip">
+                                                {{ $errors->first('category_id', 'el campo etiquetas es obligatorio')}}
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label  class="">Etiquetas</label>
+                                            <div class="select2-dark">
+                                                <select name="tags[]" class="select2 {{ $errors->has('tags[]') ? 'is-invalid' : '' }}" multiple="multiple" data-placeholder="Selecciona una o más etiquetas"  data-dropdown-css-class="select2-dark" style="width: 100%;" >
                                                     @foreach( $tags as $tag)
-                                                        <option {{ collect(old('tags'))->contains($tag->id) ? 'selected' : ''}} value="{{ $tag->id }}">{{ $tag->name }}</option>
-                                                   @endforeach
+                                                        <option {{ collect( old('tags', $post->tags->pluck('id') ? $post->tags->pluck('id') : null))->contains($tag->id) ? 'selected' : ''}} value="{{ $tag->id }}">{{ $tag->name }}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                             {{--                                                mensaje de error--}}
@@ -186,6 +186,7 @@
 
 @section('css')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link rel="stylesheet" href="/adminlte/dropzone/dist/min/dropzone.min.css">
     <style>
         .select2-container--default .select2-dropdown .select2-search__field, .select2-container--default .select2-search--inline .select2-search__field {
             border: 0px solid #ced4da;
@@ -202,6 +203,7 @@
     @toastr_render
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="/adminlte/dropzone/dist/min/dropzone.min.js"></script>
     <script src="/adminlte/moment/locale/es.js"></script>
     <script type="text/javascript">
         $(function() {

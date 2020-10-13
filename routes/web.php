@@ -30,9 +30,10 @@ Route::group([
      ], function (){
     Route::get('home', 'HomeController@index')->name('home');
 
-    Route::get('post', 'PostsController@index')->name('admin.posts.index');
-    Route::get('post/create', 'PostsController@create')->name('admin.posts.create');
-    Route::post('post', 'PostsController@store')->name('admin.posts.store');
+    Route::get('posts', 'PostsController@index')->name('admin.posts.index');
+    Route::post('posts', 'PostsController@store')->name('admin.posts.store');
+    Route::get('posts/{post}', 'PostsController@edit')->name('admin.posts.edit');
+    Route::put('posts/{post}', 'PostsController@update')->name('admin.posts.update');
 
     Route::get('portfolio', 'PortfoliosController@index')->name('admin.portfolio.index');
     //Route::get('post/create', 'PostsController@create')->name('admin.posts.create');

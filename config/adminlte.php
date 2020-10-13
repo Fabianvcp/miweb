@@ -183,7 +183,7 @@ return [
     // puede configurar esta opción en true, falseo 'md'habilitarla para tabletas pequeñas y pantallas más grandes (> = 768px).
     'sidebar_mini' => true,
     //Activa / desactiva el modo contraído de forma predeterminada.
-    'sidebar_collapse' => false,
+    'sidebar_collapse' => true,
     //Habilita / deshabilita el colapso automático estableciendo un ancho mínimo para colapsar automáticamente.
     'sidebar_collapse_auto_size' => false,
     //Habilita / deshabilita la secuencia de comandos para recordar y contraer.
@@ -288,9 +288,10 @@ return [
             'text' => 'search',
             'search' => false,
             'topnav' => false,
+
         ],
         [
-            'text' => 'digimon',
+            'text' => 'blog',
             'route'  => '/',
             'can'  => 'manage-blog',
         ],
@@ -330,16 +331,16 @@ return [
                 ],
                 [
                     'text' => 'Crear una publicación',
-                    'route'  => 'admin.posts.create',
+                    'classes'=> 'crear_post',
                     'icon' => 'fas fa-plus-circle fa-lg',
                 ],
             ],
         ],
         ['header' => 'Portfolio'],
         [
-            'text'    => 'Publicaciones',
+            'text'    => 'Porfolio',
             'icon'    => 'fas fa-folder fa-lg',
-            'url'  => 'admin/post*',
+            'url'  => 'admin/portfolio*',
             'submenu' => [
                 [
                     'text' => 'Ver publicaciones',
