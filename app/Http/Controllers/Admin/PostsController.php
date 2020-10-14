@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use \Illuminate\Support\Str;
 use  Illuminate\Support\Arr;
+use Intervention\Image\Facades\Image;
 
 class PostsController extends Controller
 {
@@ -50,8 +51,11 @@ class PostsController extends Controller
 
     public function update(Post $post , Request $request)
     {
+
+
         //validación
        $this->validate($request, [
+           'portada' => 'required|image|mimes:jpeg,png,jpg,gif,svg||max:5300',
             'title' => 'required',
             'body' => 'required|min:10',
             'published_at' => 'required',
@@ -65,6 +69,16 @@ class PostsController extends Controller
 
         //almacenar datos en databases
         //return Post::create($request->all());
+        $image = $request->file('portada');
+        $input['imagename'] = time().'.'.$image->extension();
+
+        $destinationPath = public_path('/thumbnail');
+        $img = Image::make($image->path());
+        $img->resize(750, 350)->save($destinationPath.'/'.$input['imagename']);
+
+        $destinationPath = public_path('/portadas');
+        $image->move($destinationPath, $input['imagename']);
+        $post->portada =$input['imagename'];
         $post->title = $request->get('title');
         $post->url = Str::slug($request->get('title'));
         $post->excerpt = $request->get('excerpt');
@@ -75,8 +89,7 @@ class PostsController extends Controller
         $post->save();
         //etiquetas
         $post->tags()->sync($request->get('tags'));
-
-        toastr()->success('Ha sido guardado correctamente', $request->get('title'), ['timeOut' => 5000]);
+        toastr()->success($request->get('excerpt'), $request->get('title'), ['timeOut' => 5000]);
       return redirect()->route('admin.posts.edit', $post);
     }
 }

@@ -40,7 +40,8 @@
                         <td>{{ $post->excerpt }}</td>
                         <td>{{  optional($post->published_at)->locale('es')->translatedFormat('l d \d\e F \d\e\l\ Y')}}</td>
                         <td>
-                            <a href="#" class="btn btn-warning"><i class="far fa-edit"></i></a>
+                            <a href="{{ route('posts.show', $post)}}" target="_blank" class="btn btn-outline-light btn-secondary"><i class="far fa-eye"></i></a>
+                            <a href="{{ route('admin.posts.edit', $post)}}" class="btn btn-warning"><i class="far fa-edit"></i></a>
                             <a href="#" class="btn btn-danger"><i class="far fa-trash-alt"></i></a>
                         </td>
                     </tr>

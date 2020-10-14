@@ -11,7 +11,7 @@
 
 @section('content')
 
-    <form action="{{ route('admin.posts.update', $post)}}" method="post">
+    <form action="{{ route('admin.posts.update', $post)}}" method="post" enctype="multipart/form-data">
         @csrf
         @method( 'PUT')
         <section class="content">
@@ -27,6 +27,19 @@
                             <!-- /.card-header -->
                             <!-- form start -->
                             <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <!-- text input -->
+                                        <div class="form-group ">
+                                            <label for="title">Portada de la publicación</label>
+                                            <input  name="portada" value="{{ old('portada', $post->portada) }}"  type="file" class="form-control-file {{ $errors->has('portada') ? 'is-invalid' : '' }}">
+                                            {{--                                                mensaje de error--}}
+                                            <div class="invalid-tooltip">
+                                                {{ $errors->first('portada')}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <!-- text input -->
@@ -154,10 +167,24 @@
                                     <!-- /.col -->
                                 </div>
                                 <!-- /.row -->
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label id="select2">Cargar imagenes</label>
+                                           <div class="dropzone">
+                                               <div class="dz-message" data-dz-message><span style="color:#0b0b0b">Arrastra las fotos aqui para subirlas</span></div>
+
+                                           </div>
+                                        </div>
+                                        <!-- /.form-group -->
+                                    </div>
+                                    <!-- /.col -->
+                                </div>
+                                <!-- /.row -->
                             </div>
                             <!-- /.card-body -->
                             <div class="card-footer">
-                                <button type="submit" class="btn btn-block btn-secondary btn-flat">Guardar publicación</button>
+                                <button type="submit" id="submit-all" class="btn btn-block btn-secondary btn-flat">Guardar publicación</button>
                             </div>
                         </div>
                         <!-- /.card -->
@@ -169,6 +196,7 @@
             </div><!-- /.container-fluid -->
         </section>
     </form>
+
 @endsection
 
 
@@ -203,8 +231,69 @@
     @toastr_render
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="/adminlte/dropzone/dist/min/dropzone.min.js"></script>
     <script src="/adminlte/moment/locale/es.js"></script>
+    <script src="/adminlte/dropzone/dist/min/dropzone.min.js"></script>
+
+    <script>
+
+        var myDropzone =  new Dropzone('.dropzone', {
+            /*donde se envia los datos*/
+            url:'/admin/posts/{{ $post->url}}/photos',
+            /*que tipo de archivos acepta*/
+             acceptedFiles: 'image/*',
+            /*Cambiar el nombre del parametro*/
+            paramName: 'photo',
+            /*Maximo de peso del archivo*/
+            maxFilesize: 5,
+            /*Cantidad de archivos que se pueden subir*/
+            maxFiles:10,
+            /*Remover link*/
+            addRemoveLinks: true,
+            dictRemoveFile: "<button class='btn btn-danger btn-sm fas fa-window-close font-weight-bold'></button>",
+            /*token post del formulario*/
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token()}}'
+            },
+
+            autoProcessQueue: false,
+
+            init: function() {
+                var submitButton = document.querySelector("#submit-all"),
+                myDropzone = this;
+
+                submitButton.addEventListener("click", function() {
+                    myDropzone.processQueue();
+                });
+
+                // Execute when file uploads are complete
+                this.on("complete", function() {
+                    // If all files have been uploaded
+                    if (this.getQueuedFiles().length == 0 && this.getUploadingFiles().length == 0 && ) {
+                        var _this = this;
+                        // Remove all files
+                        _this.removeAllFiles();
+                    }
+                });
+
+            }
+        });
+        Dropzone.autoDiscover = false;
+        Dropzone.prototype.defaultOptions.dictFallbackMessage = "Su navegador no admite la carga de archivos mediante la función de arrastrar y soltar.";
+        Dropzone.prototype.defaultOptions.dictFallbackText = "Utilice el formulario de respaldo a continuación para cargar sus archivos como en los viejos tiempos.";
+        Dropzone.prototype.defaultOptions.dictFileTooBig = "El archivo es demasiado grande . Tamaño máximo de archivo: 2MiB.";
+        Dropzone.prototype.defaultOptions.dictInvalidFileType = "No puedes subir archivos de este tipo.";
+        Dropzone.prototype.defaultOptions.dictResponseError = "El servidor respondió con error.";
+        Dropzone.prototype.defaultOptions.dictCancelUpload = "Cancelar carga";
+        Dropzone.prototype.defaultOptions.dictCancelUploadConfirmation = "¿Está seguro de que desea cancelar esta carga?";
+        Dropzone.prototype.defaultOptions.dictRemoveFile = "Remover archivo";
+        Dropzone.prototype.defaultOptions.dictMaxFilesExceeded = "No puedes subir más archivos.";
+
+        myDropzone.on('error', function(file, res){
+            var msg = res.errors.photo[0];
+            $('.dz-error-message:last > span').text(msg);
+        });
+
+    </script>
     <script type="text/javascript">
         $(function() {
             $('#datetimepicker2').datetimepicker({
@@ -245,7 +334,7 @@
             baseFloatZIndex: 10005
 
         });
-    </script>
 
+    </script>
 
 @stop

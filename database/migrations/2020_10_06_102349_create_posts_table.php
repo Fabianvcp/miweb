@@ -17,6 +17,7 @@ class CreatePostsTable extends Migration
             $table->id();
             $table->string('title');
             $table->string('url');
+            $table->text('portada')->nullable();
             $table->mediumText('excerpt')->nullable();
             $table->text('body')->nullable();
             $table->timestamp('published_at')->nullable();
