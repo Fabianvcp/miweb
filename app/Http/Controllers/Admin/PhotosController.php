@@ -25,7 +25,7 @@ class PhotosController extends Controller
         ]);
 
         $photo = request()->file('photo');
-        $photoURl =  $photo->store('post');
+        $photoURl =  $photo->store('public');
 
         toastr()->success('Ha sido guardado correctamente', 'Las imagenes se han almacenado', ['timeOut' => 5000]);
 

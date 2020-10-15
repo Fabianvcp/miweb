@@ -254,9 +254,9 @@
             headers: {
                 'X-CSRF-TOKEN': '{{ csrf_token()}}'
             },
-
+            uploadMultiple: true,
+            parallelUploads: 10,
             autoProcessQueue: false,
-
             init: function() {
                 var submitButton = document.querySelector("#submit-all"),
                 myDropzone = this;
