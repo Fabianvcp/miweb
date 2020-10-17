@@ -14,13 +14,13 @@ class CreatePortfoliosTable extends Migration
     {
         Schema::create('portfolios', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('url');
-            $table->text('image')->nullable();
-            $table->text('body')->nullable();
-            $table->string('link')->nullable();
-            $table->timestamp('published_at')->nullable();
-            $table->mediumText('category_p_id')->nullable();
+            $table->string('title'); //titulo
+            $table->string('url'); //url
+            $table->text('image')->nullable(); //url
+            $table->text('body')->nullable(); //contenido
+            $table->string('link')->nullable(); //link del proyecto
+            $table->timestamp('published_at')->nullable(); //fecha de creación
+            $table->mediumText('category_p_id')->nullable(); //categoria_id
             $table->timestamps();
         });
     }

@@ -51,8 +51,6 @@ class PostsController extends Controller
 
     public function update(Post $post , Request $request)
     {
-
-
         //validación
        $this->validate($request, [
            'portada' => 'required|image|mimes:jpeg,png,jpg,gif,svg||max:5300',
@@ -63,10 +61,6 @@ class PostsController extends Controller
             'category_id' => 'required',
             'tags' => 'required'
         ]);
-
-
-
-
         //almacenar datos en databases
         //return Post::create($request->all());
         $image = $request->file('portada');

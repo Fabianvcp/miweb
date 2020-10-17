@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'PagesController@inicio')->name('inicio');
 Route::get('blog', 'PagesController@blog')->name('blog');
 Route::get('blog/{post}', 'PostsController@show')->name('posts.show');
+Route::get('portfolios', 'PagesController@portfolio')->name('portfolio');
+Route::get('portfolios/{portfolio}', 'PortfolioController@show')->name('portfolio.show');
 
 //routes por dentro del panel
 
@@ -35,6 +37,10 @@ Route::group(['prefix'=>'admin','namespace' => 'admin',  'middleware' => 'auth' 
     Route::post('posts/{post}/photos', 'PhotosController@store')->name('admin.posts.photos.store');
     //portfolio
     Route::get('portfolio', 'PortfoliosController@index')->name('admin.portfolio.index');
-    //Route::get('post/create', 'PostsController@create')->name('admin.posts.create');
+    Route::post('portfolio', 'PortfoliosController@store')->name('admin.portfolio.store');
+    Route::get('portfolio/{portfolio}', 'PortfoliosController@edit')->name('admin.portfolio.edit');
+    Route::put('portfolio/{portfolio}', 'PortfoliosController@update')->name('admin.portfolio.update');
+    //fotos
+    Route::post('portfolio/{portfolio}/fotos', 'FotosController@store')->name('admin.portfolio.fotos.store');
 
 });

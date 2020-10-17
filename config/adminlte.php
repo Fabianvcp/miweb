@@ -344,7 +344,7 @@ return [
             'submenu' => [
                 [
                     'text' => 'Ver publicaciones',
-                    'route'  => 'admin.portfolio.index',
+                    'url'  => 'admin/portfolio',
                     'icon' => 'far fa-list-alt fa-lg'
                 ],
 //                [

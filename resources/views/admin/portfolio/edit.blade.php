@@ -11,7 +11,7 @@
 
 @section('content')
 
-    <form action="{{ route('admin.posts.update', $post)}}" method="post" enctype="multipart/form-data">
+    <form action="#" method="post" enctype="multipart/form-data">
         @csrf
         @method( 'PUT')
         <section class="content">
@@ -27,25 +27,28 @@
                             <!-- /.card-header -->
                             <!-- form start -->
                             <div class="card-body">
+                                <!-- portada-->
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <!-- text input -->
                                         <div class="form-group ">
                                             <label for="title">Portada de la publicación</label>
-                                            <input  name="portada" value="{{ old('portada', $post->portada) }}"  type="file" class="form-control-file {{ $errors->has('portada') ? 'is-invalid' : '' }}">
+                                            <input  name="image" value="{{ old('image', $portfolio->image) }}"  type="file" class="form-control-file {{ $errors->has('image') ? 'is-invalid' : '' }}">
                                             {{--                                                mensaje de error--}}
                                             <div class="invalid-tooltip">
-                                                {{ $errors->first('portada')}}
+                                                {{ $errors->first('image')}}
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                <!--/ portada-->
+                                <!-- titulo-->
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <!-- text input -->
                                         <div class="form-group ">
                                             <label for="title">Título de la publicación</label>
-                                            <input id="title" name="title" value="{{ old('title', $post->title) }}"  type="text" class="form-control {{ $errors->has('title') ? 'is-invalid' : '' }}" placeholder="Titulo">
+                                            <input id="title" name="title" value="{{ old('title', $portfolio->title) }}"  type="text" class="form-control {{ $errors->has('title') ? 'is-invalid' : '' }}" placeholder="Titulo">
                                             {{--                                                mensaje de error--}}
                                             <div class="invalid-tooltip">
                                                 {{ $errors->first('title')}}
@@ -53,20 +56,22 @@
                                         </div>
                                     </div>
                                 </div>
+                                <!-- /titulo-->
+                                <!-- cuerpo-->
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <!-- textarea -->
                                         <div class="form-group">
                                             <label for="body">Contenido de la publicación</label>
-                                            <textarea id="body" name="body" class="{{ $errors->has('body') ? 'is-invalid' : '' }}">{{ old('body',$post->body ? $post->body : null) }}</textarea>
+                                            <textarea id="body" name="body" class="{{ $errors->has('body') ? 'is-invalid' : '' }}">{{ old('body',$portfolio->body ? $portfolio->body : null) }}</textarea>
                                             {{--                                                mensaje de error--}}
                                             <div class="invalid-tooltip">
                                                 {{ $errors->first('body')}}
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>
+                                <!-- cuerpo-->
                             </div>
                             <!-- /.card-body -->
 
@@ -84,7 +89,7 @@
                         <!-- card -->
                         <div class="card card-dark text-white bg-gradient-dark">
                             <div class="card-header">
-                                <h3 class="card-title">Extracto, fecha de publicación, categoria, etiquetas e imagenes</h3>
+                                <h3 class="card-title">fecha de publicación, categoria e imagenes</h3>
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
@@ -95,7 +100,7 @@
 
                                             <label for="datetimepicker2">Fecha de publicación</label>
                                             <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
-                                                <input name="published_at" value="{{ old('published_at',$post->published_at ? $post->published_at : null) }}" type="text" class="form-control datetimepicker-input  {{ $errors->has('published_at') ? 'is-invalid' : '' }}" data-target="#datetimepicker2"/>
+                                                <input name="published_at" value="{{ old('published_at',$portfolio->published_at ? $portfolio->published_at : null) }}" type="text" class="form-control datetimepicker-input  {{ $errors->has('published_at') ? 'is-invalid' : '' }}" data-target="#datetimepicker2"/>
                                                 <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
                                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                                 </div>
@@ -108,20 +113,18 @@
                                         </div>
                                     </div>
                                 </div>
+                                <!-- titulo-->
                                 <div class="row">
-                                    <div class="col-12">
-                                        <!-- textarea -->
-                                        <div class="form-group">
-                                            <label for="excerpt">Extracto publicación</label>
-                                            <textarea name="excerpt" id="excerpt" class="form-control {{ $errors->has('excerpt') ? 'is-invalid' : '' }}" placeholder="Resumen de la publicación">{{ old('excerpt',$post->excerpt ? $post->excerpt : null) }}</textarea>
-                                            {{--                                                mensaje de error--}}
-                                            <div class="invalid-tooltip">
-                                                {{ $errors->first('excerpt')}}
-                                            </div>
+                                    <div class="col-sm-12">
+                                        <!-- text input -->
+                                        <div class="form-group ">
+                                            <label for="title">Link del portfolio externo</label>
+                                            <input id="title" name="title" value="{{ old('link', $portfolio->link) }}"  type="text" class="form-control {{ $errors->has('link') ? 'is-invalid' : '' }}" placeholder="Link">
 
                                         </div>
                                     </div>
                                 </div>
+                                <!-- /titulo-->
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="form-group">
@@ -129,7 +132,7 @@
                                             <div class="select2-dark">
                                                 <select name="category_id" class="select2 {{ $errors->has('category_id') ? 'is-invalid' : '' }}" data-placeholder="Selecciona una categoria"  data-dropdown-css-class="select2-dark" style="width: 100%;"  >
                                                     @foreach( $categories as $category)
-                                                        <option value="{{$category->id}}"  {{ old('category_id', $post->category_id) == $category->id ?  'select' : '' }}>{{ $category->name }}</option>
+                                                        <option value="{{$category->id}}"  {{ old('category_id', $portfolio->category_id) == $category->id ?  'select' : '' }}>{{ $category->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -141,36 +144,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="form-group">
-                                            <label  class="">Etiquetas</label>
-                                            <div class="select2-dark">
-                                                <select name="tags[]" class="select2 {{ $errors->has('tags[]') ? 'is-invalid' : '' }}" multiple="multiple" data-placeholder="Selecciona una o más etiquetas"  data-dropdown-css-class="select2-dark" style="width: 100%;" >
-                                                    @foreach( $tags as $tag)
-                                                        <option {{ collect( old('tags', $post->tags->pluck('id') ? $post->tags->pluck('id') : null))->contains($tag->id) ? 'selected' : ''}} value="{{ $tag->id }}">{{ $tag->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            {{--                                                mensaje de error--}}
-                                            <div class="invalid-tooltip">
-                                                {{ $errors->first('tags[]', 'el campo etiquetas es obligatorio')}}
-                                            </div>
-
-                                        </div>
-                                        <!-- /.form-group -->
-                                    </div>
-                                    <!-- /.col -->
-                                </div>
                                 <!-- /.row -->
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="form-group">
                                             <label id="select2">Cargar imagenes</label>
-                                           <div class="dropzone">
-                                               <div class="dz-message" data-dz-message><span style="color:#0b0b0b">Arrastra las fotos aqui para subirlas</span></div>
+                                            <div class="dropzone">
+                                                <div class="dz-message" data-dz-message><span style="color:#0b0b0b">Arrastra las fotos aqui para subirlas</span></div>
 
-                                           </div>
+                                            </div>
                                         </div>
                                         <!-- /.form-group -->
                                     </div>
@@ -231,14 +213,13 @@
     <script src="/adminlte/dropzone/dist/min/dropzone.min.js"></script>
 
     <script>
-
         var myDropzone =  new Dropzone('.dropzone', {
             /*donde se envia los datos*/
-            url:'/admin/posts/{{ $post->url}}/photos',
+            url:'/admin/portfolio/{{ $portfolio->url}}/fotos',
             /*que tipo de archivos acepta*/
-             acceptedFiles: 'image/*',
+            acceptedFiles: 'image/*',
             /*Cambiar el nombre del parametro*/
-            paramName: 'photo',
+            paramName: 'foto',
             /*Maximo de peso del archivo*/
             maxFilesize: 5,
             /*Cantidad de archivos que se pueden subir*/
@@ -255,7 +236,7 @@
             autoProcessQueue: false,
             init: function() {
                 var submitButton = document.querySelector("#submit-all"),
-                myDropzone = this;
+                    myDropzone = this;
 
                 submitButton.addEventListener("click", function() {
                     myDropzone.processQueue();

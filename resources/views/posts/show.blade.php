@@ -1,5 +1,8 @@
 @extends('base')
-
+@section('meta-title', $post->title)
+@stop
+@section('meta-description', $post->excerpt)
+@stop
 @section('content')
 
     @include('partials.breadcam')
@@ -298,4 +301,4 @@
         </div>
     </section>
     <!--================Blog Area =================-->
-
+    @stop
