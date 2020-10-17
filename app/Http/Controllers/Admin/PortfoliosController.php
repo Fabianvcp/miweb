@@ -33,19 +33,21 @@ class PortfoliosController extends Controller
     }
 
     public function edit(Portfolio $portfolio){
-        $categories= Category_p::all();
-        return view('admin.portfolio.edit', compact('categories','portfolio'));
+
+        $categorie_ps= Category_p::all();
+        return view('admin.portfolio.edit', compact('categorie_ps','portfolio'));
+
     }
 
-    public function update(Portfolio $portfolio, Request $request)
+    public function update(Portfolio $portfolio , Request $request)
     {
         //validacion
         $this->validate($request, [
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg||max:5300',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:5300',
             'title' => 'required',
             'body' => 'required|min:10',
             'published_at' => 'required',
-            'category_id' => 'required',
+            'category_p_id' => 'required',
         ]);
         //almacenar datos en databases
         //return Post::create($request->all());
@@ -67,9 +69,9 @@ class PortfoliosController extends Controller
         $portfolio->url = Str::slug($request->get('title'));
         $portfolio->image =$input['imagename'];
         $portfolio->body = $request->get('body');
-        $portfolio->category_p_id = $request->get('link');
+        $portfolio->link = $request->get('link');
         $portfolio->published_at = Carbon::parse($request->get('published_at'));
-        $portfolio->category_p_id = $request->get('category_id');
+        $portfolio->category_p_id = $request->get('category_p_id');
         //save
         $portfolio->save();
         toastr()->success('Se almacenado correctamente', $request->get('title'), ['timeOut' => 5000]);

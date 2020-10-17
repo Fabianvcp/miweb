@@ -17,10 +17,11 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body  container-fluid" >
-                <table id="posts-table"  class="table table-striped table-bordered dt-responsive nowrap text-center" style="width:100%;">
+                <table id="posts-table"  class="table table-striped table-bordered dt-responsive nowrap" style="width:100%;">
                     <thead>
                     <tr>
                         <th>ID</th>
+                        <th>Portada</th>
                         <th>Titulo</th>
                         <th>Acciones</th>
                     </tr>
@@ -30,6 +31,7 @@
                     @foreach($portfolios as $portfolio)
                         <tr>
                             <td>{{ $portfolio->id }}</td>
+                            <td><img width="120px" height="60px" src="/galeria/{{ $portfolio->image}}" alt=""> </td>
                             <td>{{ $portfolio->title }}</td>
                             <td>
                                 <a href="{{ route('portfolio.show', $portfolio)}}" target="_blank" class="btn btn-outline-light btn-secondary"><i class="far fa-eye"></i></a>

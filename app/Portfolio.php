@@ -28,6 +28,10 @@ class Portfolio extends Model
         return $this->belongsTo(Category_p::class);
     }
 
+    public function fotos(){
+        return $this->hasMany(Foto::class);
+    }
+
     /**
      * @param $query
      */

@@ -11,7 +11,7 @@
 
 @section('content')
 
-    <form action="#" method="post" enctype="multipart/form-data">
+    <form action="{{  route('admin.portfolio.update', $portfolio) }}" method="post" enctype="multipart/form-data">
         @csrf
         @method( 'PUT')
         <section class="content">
@@ -32,8 +32,8 @@
                                     <div class="col-sm-12">
                                         <!-- text input -->
                                         <div class="form-group ">
-                                            <label for="title">Portada de la publicación</label>
-                                            <input  name="image" value="{{ old('image', $portfolio->image) }}"  type="file" class="form-control-file {{ $errors->has('image') ? 'is-invalid' : '' }}">
+                                            <label for="image">Portada de la publicación</label>
+                                            <input id="image"  name="image" value="{{ old('image', $portfolio->image) }}"  type="file" class="form-control-file {{ $errors->has('image') ? 'is-invalid' : '' }}">
                                             {{--                                                mensaje de error--}}
                                             <div class="invalid-tooltip">
                                                 {{ $errors->first('image')}}
@@ -47,8 +47,8 @@
                                     <div class="col-sm-12">
                                         <!-- text input -->
                                         <div class="form-group ">
-                                            <label for="title">Título de la publicación</label>
-                                            <input id="title" name="title" value="{{ old('title', $portfolio->title) }}"  type="text" class="form-control {{ $errors->has('title') ? 'is-invalid' : '' }}" placeholder="Titulo">
+                                            <label for="title">Título de la publicación </label>
+                                            <input  type="text" id="title" name="title" value="{{ old('title', $portfolio->title)}}" class="form-control {{ $errors->has('title') ? 'is-invalid' : '' }}" placeholder="Titulo">
                                             {{--                                                mensaje de error--}}
                                             <div class="invalid-tooltip">
                                                 {{ $errors->first('title')}}
@@ -56,7 +56,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- /titulo-->
                                 <!-- cuerpo-->
                                 <div class="row">
                                     <div class="col-sm-12">
@@ -118,8 +117,8 @@
                                     <div class="col-sm-12">
                                         <!-- text input -->
                                         <div class="form-group ">
-                                            <label for="title">Link del portfolio externo</label>
-                                            <input id="title" name="title" value="{{ old('link', $portfolio->link) }}"  type="text" class="form-control {{ $errors->has('link') ? 'is-invalid' : '' }}" placeholder="Link">
+                                            <label for="link">Link del portfolio externo</label>
+                                            <input id="link" name="link" value="{{ old('link', $portfolio->link) }}"  type="text" class="form-control {{ $errors->has('link') ? 'is-invalid' : '' }}" placeholder="Link">
 
                                         </div>
                                     </div>
@@ -130,9 +129,9 @@
                                         <div class="form-group">
                                             <label id="select2">Selecciona una categoria</label>
                                             <div class="select2-dark">
-                                                <select name="category_id" class="select2 {{ $errors->has('category_id') ? 'is-invalid' : '' }}" data-placeholder="Selecciona una categoria"  data-dropdown-css-class="select2-dark" style="width: 100%;"  >
-                                                    @foreach( $categories as $category)
-                                                        <option value="{{$category->id}}"  {{ old('category_id', $portfolio->category_id) == $category->id ?  'select' : '' }}>{{ $category->name }}</option>
+                                                <select name="category_id" class="select2 {{ $errors->has('category_p_id') ? 'is-invalid' : '' }}" data-placeholder="Selecciona una categoria"  data-dropdown-css-class="select2-dark" style="width: 100%;"  >
+                                                    @foreach( $categorie_ps as $category_p)
+                                                        <option value="{{ $category_p->id}}"  {{ old('category_p_id', $portfolio->category_p_id) === $category_p->id ?  'select' : '' }}>{{ $category_p->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>

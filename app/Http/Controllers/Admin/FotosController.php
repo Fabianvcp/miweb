@@ -7,6 +7,7 @@ use App\Foto;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 
 class FotosController extends Controller
@@ -20,10 +21,15 @@ class FotosController extends Controller
             'foto' => 'image|max:5300'//
         ]);
 
-        $fotos = request()->file('foto');
-        $photoURl =  $fotos->store('public');
+        $fotos = request()->file('foto')->store('public');
+
 
         toastr()->success('Ha sido guardado correctamente', 'Las imagenes se han almacenado', ['timeOut' => 5000]);
 
+
+        Foto::create([
+            'url'=>Storage::url($fotos),
+            'portfolio_id' => $portfolio->id
+        ]);
     }
 }

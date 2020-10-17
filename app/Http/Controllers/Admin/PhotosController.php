@@ -24,10 +24,14 @@ class PhotosController extends Controller
             'photo' => 'image|max:5300'//
         ]);
 
-        $photo = request()->file('photo');
-        $photoURl =  $photo->store('public');
+        $photo = request()->file('photo')->store('public');
+
 
         toastr()->success('Ha sido guardado correctamente', 'Las imagenes se han almacenado', ['timeOut' => 5000]);
 
+        Photo::creat([
+            'url'=>Storage::url($photo),
+            'post_id' => $post->id
+        ]);
     }
 }

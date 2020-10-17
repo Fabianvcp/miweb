@@ -3,7 +3,7 @@
 use App\Category_p;
 use App\Portfolio;
 use Illuminate\Database\Seeder;
-use Psy\Util\Str;
+use Illuminate\Support\Str;
 
 class PortfoliosSeeder extends Seeder
 {
