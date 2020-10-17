@@ -41,8 +41,8 @@ class PostsController extends Controller
 
         return redirect()->route('admin.posts.edit', $post);
     }
-    public function edit(Post $post){
-
+    public function edit(Post $post)
+    {
 
         $categories= Category::all();
         $tags= Tag::all();
@@ -51,6 +51,13 @@ class PostsController extends Controller
 
     public function update(Post $post , Request $request)
     {
+        if ($request->file('portada') === null){
+            return $post->portada;
+        }
+        else
+        {
+            return "no funciono";
+        }
         //validación
        $this->validate($request, [
            'portada' => 'required|image|mimes:jpeg,png,jpg,gif,svg||max:5300',
