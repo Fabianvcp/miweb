@@ -43,7 +43,7 @@ class PortfoliosController extends Controller
     {
         //validacion
         $this->validate($request, [
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:5300',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:5300',
             'title' => 'required',
             'body' => 'required|min:10',
             'published_at' => 'required',
@@ -52,8 +52,7 @@ class PortfoliosController extends Controller
         //almacenar datos en databases
         //return Post::create($request->all());
 
-        //almacenar datos en databases
-        //return Post::create($request->all());
+        if( $portfolio->portada === null){
         $image = $request->file('image');
         $input['imagename'] = time().'.'.$image->extension();
 
@@ -65,6 +64,9 @@ class PortfoliosController extends Controller
         $image->move($destinationPath, $input['imagename']);
 
         $portfolio->image =$input['imagename'];
+        }else{
+            $portfolio->image;
+        }
         $portfolio->title = $request->get('title');
         $portfolio->url = Str::slug($request->get('title'));
         $portfolio->image =$input['imagename'];

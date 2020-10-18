@@ -33,7 +33,7 @@
                                         <!-- text input -->
                                         <div class="form-group ">
                                             <label for="image">Portada de la publicación</label>
-                                            <input id="image"  name="image" value="{{ old('image', $portfolio->image) }}"  type="file" class="form-control-file {{ $errors->has('image') ? 'is-invalid' : '' }}">
+                                            <input id="image"  name="image" value="{{ old('image', $portfolio->image) }}"  type="file" class="form-control-file {{ $errors->has('image') ? 'is-invalid' : '' }}" >
                                             {{--                                                mensaje de error--}}
                                             <div class="invalid-tooltip">
                                                 {{ $errors->first('image')}}
@@ -210,7 +210,18 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="/adminlte/moment/locale/es.js"></script>
     <script src="/adminlte/dropzone/dist/min/dropzone.min.js"></script>
-
+    @if( $portfolio->image === null)
+        <script>
+            function validate(){
+                var inp = document.getElementById('image');
+                if(inp.files.length === 0){
+                    toastr.error('Se requiere Imagen');
+                    inp.focus();
+                    return false;
+                }
+            }
+        </script>
+    @endif
     <script>
         var myDropzone =  new Dropzone('.dropzone', {
             /*donde se envia los datos*/

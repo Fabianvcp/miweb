@@ -51,16 +51,9 @@ class PostsController extends Controller
 
     public function update(Post $post , Request $request)
     {
-        if ($request->file('portada') === null){
-            return $post->portada;
-        }
-        else
-        {
-            return "no funciono";
-        }
         //validación
-       $this->validate($request, [
-           'portada' => 'required|image|mimes:jpeg,png,jpg,gif,svg||max:5300',
+        $this->validate($request, [
+            'portada' => 'image|mimes:jpeg,png,jpg,gif,svg||max:5300',
             'title' => 'required',
             'body' => 'required|min:10',
             'published_at' => 'required',
@@ -68,18 +61,24 @@ class PostsController extends Controller
             'category_id' => 'required',
             'tags' => 'required'
         ]);
-        //almacenar datos en databases
-        //return Post::create($request->all());
-        $image = $request->file('portada');
-        $input['imagename'] = time().'.'.$image->extension();
 
-        $destinationPath = public_path('/thumbnail');
-        $img = Image::make($image->path());
-        $img->resize(750, 350)->save($destinationPath.'/'.$input['imagename']);
+        if( $post->portada === null) {
+            //almacenar datos en databases
+            //return Post::create($request->all());
+            $image = $request->file('portada');
+            $input['imagename'] = time() . '.' . $image->getClientOriginalExtension();
+            $destinationPath = public_path('/thumbnail');
+            $img = Image::make($image->path());
+            $img->resize(750, 350)->save($destinationPath . '/' . $input['imagename']);
 
-        $destinationPath = public_path('/portadas');
-        $image->move($destinationPath, $input['imagename']);
-        $post->portada =$input['imagename'];
+            $destinationPath = public_path('/portadas');
+            $image->move($destinationPath, $input['imagename']);
+            $post->portada = $input['imagename'];
+        }else{
+
+            $post->portada;
+
+        }
         $post->title = $request->get('title');
         $post->url = Str::slug($request->get('title'));
         $post->excerpt = $request->get('excerpt');
@@ -88,6 +87,7 @@ class PostsController extends Controller
         $post->category_id = $request->get('category_id');
         //save
         $post->save();
+
         //etiquetas
         $post->tags()->sync($request->get('tags'));
         toastr()->success($request->get('excerpt'), $request->get('title'), ['timeOut' => 5000]);

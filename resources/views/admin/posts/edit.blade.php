@@ -11,7 +11,7 @@
 
 @section('content')
 
-    <form action="{{ route('admin.posts.update', $post)}}" method="post" enctype="multipart/form-data">
+    <form action="{{ route('admin.posts.update', $post)}}" method="post" enctype="multipart/form-data" onsubmit="return(validate());">
         @csrf
         @method( 'PUT')
         <section class="content">
@@ -32,7 +32,7 @@
                                         <!-- text input -->
                                         <div class="form-group ">
                                             <label for="title">Portada de la publicación</label>
-                                            <input  name="portada" value="{{ old('portada', $post->portada) }}"  type="file" class="form-control-file {{ $errors->has('portada') ? 'is-invalid' : '' }}">
+                                            <input id="portada" name="portada" value="{{ old('portada', $post->portada) }}"  type="file" class="form-control-file {{ $errors->has('portada') ? 'is-invalid' : '' }}">
                                             {{--                                                mensaje de error--}}
                                             <div class="invalid-tooltip">
                                                 {{ $errors->first('portada')}}
@@ -230,6 +230,18 @@
     <script src="/adminlte/moment/locale/es.js"></script>
     <script src="/adminlte/dropzone/dist/min/dropzone.min.js"></script>
 
+    @if( $post->portada === null)
+        <script>
+            function validate(){
+                var inp = document.getElementById('portada');
+                if(inp.files.length === 0){
+                    toastr.error('Se requiere Imagen portada');
+                    inp.focus();
+                    return false;
+                }
+            }
+        </script>
+    @endif
     <script>
 
         var myDropzone =  new Dropzone('.dropzone', {
