@@ -58,7 +58,7 @@
         </div>
     </div>
     <div class="modal fade" id="modal-secondary">
-        <form action="{{ route('admin.posts.store') }}" role="form" method="POST">
+        <form action="{{ route('admin.posts.store','#create') }}" role="form" method="POST">
             @csrf
             <div class="modal-dialog">
             <div class="modal-content bg-dark">
@@ -74,7 +74,7 @@
                             <!-- text input -->
                             <div class="form-group ">
                                 <label for="title"></label>
-                                <input id="title" name="title" value="{{ old('title') }}"  type="text" class="form-control {{ $errors->has('title') ? 'is-invalid' : '' }}" placeholder="Titulo" required>
+                                <input id="title" name="title" value="{{ old('title') }}"  type="text" class="form-control {{ $errors->has('title') ? 'is-invalid' : '' }}" placeholder="Titulo" autofocus required>
                                 {{--                                                mensaje de error--}}
                                 <div class="invalid-tooltip">
                                     {{ $errors->first('title')}}
@@ -151,4 +151,19 @@
             });
         });
     </script>
+    @unless( request()->is('admin/posts/*'))
+        <script>
+
+            if(window.location.hash === '#create'){
+                $('#modal-secondary').modal('show');
+            }
+            $('#modal-secondary').on('hide.bs.modal', function (){
+                window.location.hash ='#';
+            });
+            $('#modal-secondary').on('shown.bs.modal', function (){
+                $('#title').focus();
+                window.location.hash ='#create';
+            });
+        </script>
+    @endunless
 @stop

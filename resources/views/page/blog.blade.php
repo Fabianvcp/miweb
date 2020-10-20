@@ -11,12 +11,25 @@
                 <div class="col-lg-8 mb-5 mb-lg-0">
                     <!--================publicación Area =================-->
                     <div class="blog_left_sidebar" >
+                        @if( isset($title))
+                            <article class="blog_item card shadow">
 
+                                <div class="blog_details card-body text-center">
+                                    <a class="d-inline-block card-title " >
+                                        <h2 class="text-center">{{ $title }}</h2>
+                                    </a>
+
+                                </div>
+                            </article>
+                        @endif
                         @forelse( $posts as $post)
-                            <article class="blog_item">
-                                <div class="blog_item_img card-img">
-                                    <img class="card-img rounded-0" src="/assets/img/blog/single_blog_2.png" alt="">
-                                    <a href="#" class="blog_item_date">
+                            <article class="blog_item card shadow" @if($post->portada === null) style="margin-top: 10vh;" @endif>
+                                <div class="blog_item_img card-img ">
+                                    @if($post->portada)
+                                    <img class="card-img rounded-0" src="/thumbnail/{{$post->portada}}" alt="">
+
+                                    @endif
+                                    <a href="#" class="blog_item_date" >
                                         <h3>{{ optional($post->published_at)->locale('es')->translatedFormat('l d') }}</h3>
                                         <p>{{ optional($post->published_at)->locale('es')->translatedFormat('\d\e F \d\e\l\ Y') }}</p>
                                     </a>
@@ -29,10 +42,10 @@
                                     <p>{{ $post->excerpt }}</p>
                                     <ul class="blog-info-link">
                                         @foreach( $post->tags as $tag )
-                                        <li><a href="#"><i class="fa fa-tag"></i> #{{ $tag->name }}</a></li>
+                                        <li><a href="{{ route('tags.show', $tag)}}"><i class="fa fa-tag"></i> #{{ $tag->name }}</a></li>
                                         @endforeach
 
-                                        <li><a href="#"><i class="fa fa-flag"></i> {{  $post->category->name }}</a></li>
+                                        <li><a href="{{ route('categories.show',$post->category) }}"><i class="fa fa-flag"></i> {{  $post->category->name }}</a></li>
                                     </ul>
                                 </div>
                             </article>
@@ -51,26 +64,7 @@
                         <!--================/publicación Area =================-->
 
                         <!--================pagination Area =================-->
-                        <nav class="blog-pagination justify-content-center d-flex">
-                            <ul class="pagination">
-                                <li class="page-item">
-                                    <a href="#" class="page-link" aria-label="Previous">
-                                        <i class="ti-angle-left"></i>
-                                    </a>
-                                </li>
-                                <li class="page-item">
-                                    <a href="#" class="page-link">1</a>
-                                </li>
-                                <li class="page-item active">
-                                    <a href="#" class="page-link">2</a>
-                                </li>
-                                <li class="page-item">
-                                    <a href="#" class="page-link" aria-label="Next">
-                                        <i class="ti-angle-right"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
+                            {{ $posts->links() }}
                        <!--================/pagination Area =================-->
                     </div>
                     <!--================right sidebar Area =================-->

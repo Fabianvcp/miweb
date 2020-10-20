@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Category;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StorePostRequest;
 use App\Post;
 use App\Tag;
 use Carbon\Carbon;
@@ -31,13 +32,10 @@ class PostsController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'title' => 'required'
+            'title' => 'required|min:3'
         ]);
 
-        $post = Post::create([
-            'title' => $request->get('title'),
-            'url' => Str::slug($request->get('title')),
-        ]);
+        $post = Post::create($request->only('title'));
 
         return redirect()->route('admin.posts.edit', $post);
     }
@@ -49,22 +47,15 @@ class PostsController extends Controller
         return view('admin.posts.edit', compact('categories','tags','post'));
     }
 
-    public function update(Post $post , Request $request)
+    public function update(Post $post , StorePostRequest $request)
     {
-        //validación
-        $this->validate($request, [
-            'portada' => 'image|mimes:jpeg,png,jpg,gif,svg||max:5300',
-            'title' => 'required',
-            'body' => 'required|min:10',
-            'published_at' => 'required',
-            'excerpt' => 'required|min:10',
-            'category_id' => 'required',
-            'tags' => 'required'
-        ]);
 
+
+        //almacenar datos en databases
+        //return Post::create($request->all());
+
+        //si no tienen imagen de portada la guardamos
         if( $post->portada === null) {
-            //almacenar datos en databases
-            //return Post::create($request->all());
             $image = $request->file('portada');
             $input['imagename'] = time() . '.' . $image->getClientOriginalExtension();
             $destinationPath = public_path('/thumbnail');
@@ -74,17 +65,34 @@ class PostsController extends Controller
             $destinationPath = public_path('/portadas');
             $image->move($destinationPath, $input['imagename']);
             $post->portada = $input['imagename'];
+            //como es obligatorio si no tiene via js en la vista no hay que poner un required, pero si ya tiene una foto
+            //hay que verificar, si  no envia nada, se mantiene la misma y imagen
         }else{
+            //ahora si es distinta hay que borrar la anterior y cambiarla por la nueva
+             $portadas = $request->get('portada');
+                $largo = strlen($portadas);
 
-            $post->portada;
+            if($largo > 0 && $post->portada == $portadas){
 
+                $image = $request->file('portada');
+                $input['imagename'] = time() . '.' . $image->getClientOriginalExtension();
+                $destinationPath = public_path('/thumbnail');
+                $img = Image::make($image->path());
+                $img->resize(750, 350)->save($destinationPath . '/' . $input['imagename']);
+
+                $destinationPath = public_path('/portadas');
+                $image->move($destinationPath, $input['imagename']);
+                $post->portada = $input['imagename'];
+
+            }else{
+              $post->portada;
+            }
         }
         $post->title = $request->get('title');
-        $post->url = Str::slug($request->get('title'));
         $post->excerpt = $request->get('excerpt');
         $post->body = $request->get('body');
-        $post->published_at = Carbon::parse($request->get('published_at'));
-        $post->category_id = $request->get('category_id');
+        $post->published_at = $request->get('published_at');
+        $post->category_id =$request->get('category_id');
         //save
         $post->save();
 

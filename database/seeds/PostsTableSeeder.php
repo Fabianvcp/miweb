@@ -45,7 +45,7 @@ Morbi posuere venenatis ipsum, ac vestibulum quam dignissim efficitur. Ut vitae 
 
         $post->save();
 
-        $post->tags()->attach(Tag::create(['name' => 'Etiqueta #1']));
+        $post->tags()->attach(Tag::create(['name' => 'Etiqueta 1']));
 
 
         $post = new Post();
@@ -59,7 +59,7 @@ Morbi posuere venenatis ipsum, ac vestibulum quam dignissim efficitur. Ut vitae 
         //$post->user_id =  2;
         $post->save();
 
-        $post->tags()->attach(Tag::create(['name' => 'Etiqueta #2']));
+        $post->tags()->attach(Tag::create(['name' => 'Etiqueta 2']));
 
         $post = new Post();
         $post->title = "Mi tercer Post";
@@ -72,7 +72,7 @@ Morbi posuere venenatis ipsum, ac vestibulum quam dignissim efficitur. Ut vitae 
         //$post->user_id =  1;
         $post->save();
 
-        $post->tags()->attach(Tag::create(['name' => 'Etiqueta #3']));
+        $post->tags()->attach(Tag::create(['name' => 'Etiqueta 3']));
 
         $post = new Post();
         $post->title = "Mi cuarto Post";
@@ -86,7 +86,7 @@ Morbi posuere venenatis ipsum, ac vestibulum quam dignissim efficitur. Ut vitae 
         $post->save();
 
 
-        $post->tags()->attach(Tag::create(['name' => 'Etiqueta #4']));
+        $post->tags()->attach(Tag::create(['name' => 'Etiqueta 4']));
 
     }
 }

@@ -13,7 +13,7 @@ class PagesController extends Controller
     }
     public function blog(){
        //
-        $posts = Post::published()->get();
+        $posts = Post::published()->paginate();
 
         return view('page.blog', compact('posts'));
     }

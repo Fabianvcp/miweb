@@ -67,6 +67,21 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <!-- iframe-->
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <!-- text input -->
+                                        <div class="form-group ">
+                                            <label for="ifrae">Contenido embebido <small> Recomendación ingresar estos valores width="100%" height="480px"</small></label>
+                                            <input  type="text" id="iframe" name="iframe" value="{{ old('iframe', $post->iframe)}}" class="form-control {{ $errors->has('iframe') ? 'is-invalid' : '' }}" placeholder="iframe, videos, musica, etc.">
+                                            {{--                                                mensaje de error--}}
+                                            <div class="invalid-tooltip">
+                                                {{ $errors->first('iframe')}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <!-- /.card-body -->
 
@@ -129,7 +144,7 @@
                                             <div class="select2-dark">
                                                 <select name="category_id" class="select2 {{ $errors->has('category_id') ? 'is-invalid' : '' }}" data-placeholder="Selecciona una categoria"  data-dropdown-css-class="select2-dark" style="width: 100%;"  >
                                                     @foreach( $categories as $category)
-                                                        <option value="{{$category->id}}"  {{ old('category_id', $post->category_id) == $category->id ?  'select' : '' }}>{{ $category->name }}</option>
+                                                        <option value="{{$category->id}}"  {{ old('category', $post->category_id) == $category->id ?  'select' : '' }}>{{ $category->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -192,7 +207,49 @@
             </div><!-- /.container-fluid -->
         </section>
     </form>
+    @if($post->photos->count())
+    <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12 ">
+        <!-- card -->
+        <div class="card card-dark text-white bg-gradient-dark">
+            <div class="card-header">
+                <h3 class="card-title">Imagenes del post</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <div class="album py-5 bg-gradient-dark">
+                    <div class="container-fluid">
+                        <div class="row">
+                            @foreach($post->photos as $photo)
+                                        <div class="col-md-2">
+                                            <div class="card mb-2 shadow-sm">
+                                                <img src="{{ url($photo->url) }}" class="bd-placeholder-img card-img-top" width="100%" height="225" >
+                                                <div class="card-body">
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <div class="btn-group">
+                                                            <form method="POST" action="{{ route('admin.photos.destroy', $photo) }}">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit" class="btn btn-sm btn-outline-danger text-center"><i class="far fa-trash-alt"></i></button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer">
+                </div>
+            </div>
+        </div>
+        <!-- /.card -->
 
+    </div>
+    @endif
 @endsection
 
 
@@ -245,10 +302,11 @@
     <script>
 
         var myDropzone =  new Dropzone('.dropzone', {
+            parallelUploads: 10,
             /*donde se envia los datos*/
-            url:'/admin/posts/{{ $post->url}}/photos',
+            url:'/admin/posts/{{$post->url}}/photos',
             /*que tipo de archivos acepta*/
-             acceptedFiles: 'image/*',
+            acceptedFiles: ".jpeg,.jpg,.png,.gif",
             /*Cambiar el nombre del parametro*/
             paramName: 'photo',
             /*Maximo de peso del archivo*/
@@ -262,12 +320,10 @@
             headers: {
                 'X-CSRF-TOKEN': '{{ csrf_token()}}'
             },
-            uploadMultiple: true,
-            parallelUploads: 10,
             autoProcessQueue: false,
             init: function() {
                 var submitButton = document.querySelector("#submit-all"),
-                myDropzone = this;
+                    myDropzone = this;
 
                 submitButton.addEventListener("click", function() {
                     myDropzone.processQueue();
@@ -322,10 +378,12 @@
     <script>
         $(document).ready(function() {
             $( '.select2bs4' ).select2({
-                language: "es"
+                language: "es",
+                tags:true
             });
             $('.select2').select2({
-                language: "es"
+                language: "es",
+                tags:true
             });
 
 

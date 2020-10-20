@@ -2,7 +2,9 @@
   <dictionary name="Fabian">
     <words>
       <w>adminlte</w>
+      <w>categorias</w>
       <w>contenido</w>
+      <w>csrf</w>
       <w>datetimepicker</w>
       <w>endforelse</w>
       <w>endsection</w>
@@ -11,6 +13,7 @@
       <w>gallardo</w>
       <w>imagename</w>
       <w>portada</w>
+      <w>portadas</w>
       <w>publicación</w>
       <w>testmonial</w>
       <w>título</w>

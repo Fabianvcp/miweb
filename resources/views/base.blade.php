@@ -6,8 +6,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>@yield('meta-title', config('app.name'))</title>
     <meta name="description" content="@yield('meta-description', "blog")">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- <link rel="manifest" href="site.webmanifest"> -->
     <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.png">
     <!-- Place favicon.ico in the root directory -->
@@ -189,6 +188,13 @@
 <script src="/assets/js/vendor/jquery-1.12.4.min.js"></script>
 <script src="/assets/js/popper.min.js"></script>
 <script src="/assets/js/bootstrap.min.js"></script>
+<script>
+    $('.carousel').carousel({
+        interval: 2000,
+        cycle: true,
+        pause:false
+    })
+</script>
 <script src="/assets/js/owl.carousel.min.js"></script>
 <script src="/assets/js/isotope.pkgd.min.js"></script>
 <script src="/assets/js/ajax-form.js"></script>

@@ -31,7 +31,7 @@
                     @foreach($portfolios as $portfolio)
                         <tr>
                             <td>{{ $portfolio->id }}</td>
-                            <td><img width="120px" height="60px" src="/galeria/{{ $portfolio->image}}" alt=""> </td>
+                            <td><img width="120px" height="60px" src="/galeria/{{ $portfolio->portada}}" alt=""> </td>
                             <td>{{ $portfolio->title }}</td>
                             <td>
                                 <a href="{{ route('portfolio.show', $portfolio)}}" target="_blank" class="btn btn-outline-light btn-secondary"><i class="far fa-eye"></i></a>
@@ -51,7 +51,7 @@
         </div>
     </div>
     <div class="modal fade" id="modal-secondary">
-        <form action="{{ route('admin.portfolio.store') }}" role="form" method="POST">
+        <form action="{{ route('admin.portfolio.store','#create') }}" role="form" method="POST">
             @csrf
             <div class="modal-dialog">
                 <div class="modal-content bg-dark">
@@ -67,7 +67,7 @@
                                 <!-- text input -->
                                 <div class="form-group ">
                                     <label for="title"></label>
-                                    <input id="title" name="title" value="{{ old('title') }}"  type="text" class="form-control {{ $errors->has('title') ? 'is-invalid' : '' }}" placeholder="Titulo" required>
+                                    <input id="title" name="title" value="{{ old('title') }}"  type="text" class="form-control {{ $errors->has('title') ? 'is-invalid' : '' }}" placeholder="Titulo">
                                     {{--                                                mensaje de error--}}
                                     <div class="invalid-tooltip">
                                         {{ $errors->first('title')}}
@@ -139,6 +139,19 @@
                     }
                 }
             });
+        });
+    </script>
+    <script>
+
+        if(window.location.hash === '#create'){
+            $('#modal-secondary').modal('show');
+        }
+        $('#modal-secondary').on('hide.bs.modal', function (){
+            window.location.hash ='#';
+        });
+        $('#modal-secondary').on('shown.bs.modal', function (){
+            $('#title').focus();
+            window.location.hash ='#create';
         });
     </script>
 @stop

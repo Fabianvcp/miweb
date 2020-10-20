@@ -17,12 +17,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'PagesController@inicio')->name('inicio');
 Route::get('blog', 'PagesController@blog')->name('blog');
 Route::get('blog/{post}', 'PostsController@show')->name('posts.show');
+Route::get('categorias/{category}', 'CategoriesController@show')->name('categories.show');
+Route::get('tag/{tag}', 'TagsController@show')->name('tags.show');
 Route::get('portfolios', 'PagesController@portfolio')->name('portfolio');
 Route::get('portfolios/{portfolio}', 'PortfolioController@show')->name('portfolio.show');
 
 //routes por dentro del panel
 
-Auth::routes(['register' => false]);
 
 
 Route::group(['prefix'=>'admin','namespace' => 'admin',  'middleware' => 'auth' ], function (){
@@ -33,8 +34,7 @@ Route::group(['prefix'=>'admin','namespace' => 'admin',  'middleware' => 'auth' 
     Route::post('posts', 'PostsController@store')->name('admin.posts.store');
     Route::get('posts/{post}', 'PostsController@edit')->name('admin.posts.edit');
     Route::put('posts/{post}', 'PostsController@update')->name('admin.posts.update');
-    //photo
-    Route::post('posts/{post}/photos', 'PhotosController@store')->name('admin.posts.photos.store');
+
     //portfolio
     Route::get('portfolio', 'PortfoliosController@index')->name('admin.portfolio.index');
     Route::post('portfolio', 'PortfoliosController@store')->name('admin.portfolio.store');
@@ -42,5 +42,11 @@ Route::group(['prefix'=>'admin','namespace' => 'admin',  'middleware' => 'auth' 
     Route::put('portfolio/{portfolio}', 'PortfoliosController@update')->name('admin.portfolio.update');
     //fotos
     Route::post('portfolio/{portfolio}/fotos', 'FotosController@store')->name('admin.portfolio.fotos.store');
+    Route::delete('fotos/{foto}', 'FotosController@destroy')->name('admin.fotos.destroy');
 
+    //photo
+    Route::post('posts/{post}/photos', 'PhotosController@store')->name('admin.posts.photos.store');
+    Route::delete('photos/{photo}', 'PhotosController@destroy')->name('admin.photos.destroy');
 });
+
+Auth::routes(['register' => false]);

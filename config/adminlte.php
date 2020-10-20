@@ -108,7 +108,7 @@ return [
     //se mantien fijo el navegador del lado izquierdo
     'layout_fixed_sidebar' => true,
     //se mantiene fijo el navegador superior
-    'layout_fixed_navbar' => null,
+    'layout_fixed_navbar' => true,
     //en el caso de tener un footer lo tendriamos fixeado
     'layout_fixed_footer' => null,
 
@@ -147,17 +147,17 @@ return [
     | https://github.com/jeroennoten/Laravel-AdminLTE/#722-admin-panel-classes
     |
     */
-    //le agrega un a class a todo el body del panel
+    //le agrega un a class a tdo el body del panel
     'classes_body' => '',
     //le agrega un estilo al cuadro del sider bar donde esta nuestro logo
     'classes_brand' => '',
     //le agrega un estilo al texto del sider bar donde esta nuestro logo
     'classes_brand_text' => '',
-    //agrega estilos todo el contenido dentro de nuestro @section content
+    //agrega estilos tdo el contenido dentro de nuestro @section content
     'classes_content_wrapper' => '',
-    //le damos una clase a todo nuestro contenido por debajo del titulo
+    //le damos una clase a tdo nuestro contenido por debajo del titulo
     'classes_content_header' => 'text-center',
-    //le damos una clase a todo nuestro contenido por debajo del titulo
+    //le damos una clase a tdo nuestro contenido por debajo del titulo
     'classes_content' => '',
     //perzonalizar el siderbar link activos
     'classes_sidebar' => 'sidebar-dark-light elevation-4',

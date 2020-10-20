@@ -8,6 +8,7 @@ use App\Foto;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
 class FotosController extends Controller
@@ -24,12 +25,23 @@ class FotosController extends Controller
         $fotos = request()->file('foto')->store('public');
 
 
-        toastr()->success('Ha sido guardado correctamente', 'Las imagenes se han almacenado', ['timeOut' => 5000]);
 
 
         Foto::create([
             'url'=>Storage::url($fotos),
             'portfolio_id' => $portfolio->id
         ]);
+        toastr()->success('Ha sido guardado correctamente', 'Las imagenes se han almacenado', ['timeOut' => 5000]);
     }
+    public function destroy(Foto $foto)
+    {
+        $foto->delete();
+        $photoPath = Str::replaceArray('Storage', ['public'], $foto->url) ;
+        Storage::delete($photoPath);
+        toastr()->success('Ha sido borrado correctamente', 'Las imagenes eliminado', ['timeOut' => 5000]);
+
+        return back();
+    }
+
+
 }

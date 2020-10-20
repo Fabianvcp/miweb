@@ -11,7 +11,7 @@
 
 @section('content')
 
-    <form action="{{  route('admin.portfolio.update', $portfolio) }}" method="post" enctype="multipart/form-data">
+    <form action="{{  route('admin.portfolio.update', $portfolio) }}" method="post" enctype="multipart/form-data" onsubmit="return(validate());">
         @csrf
         @method( 'PUT')
         <section class="content">
@@ -33,10 +33,10 @@
                                         <!-- text input -->
                                         <div class="form-group ">
                                             <label for="image">Portada de la publicación</label>
-                                            <input id="image"  name="image" value="{{ old('image', $portfolio->image) }}"  type="file" class="form-control-file {{ $errors->has('image') ? 'is-invalid' : '' }}" >
-                                            {{--                                                mensaje de error--}}
+                                            <input id="image"  name="portada" value="{{ old('portada', $portfolio->portada) }}"  type="file" class="form-control-file {{ $errors->has('portada') ? 'is-invalid' : '' }}" >
+                                            {{--mensaje de error--}}
                                             <div class="invalid-tooltip">
-                                                {{ $errors->first('image')}}
+                                                {{ $errors->first('portada')}}
                                             </div>
                                         </div>
                                     </div>
@@ -71,6 +71,17 @@
                                     </div>
                                 </div>
                                 <!-- cuerpo-->
+                                <!-- iframe-->
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <!-- text input -->
+                                        <div class="form-group ">
+                                            <label for="iframe">Contenido embebido <small> Recomendación ingresar estos valores width="100%" height="480px"</small></label>
+                                            <input  type="text" id="iframe" name="iframe" value="{{ old('iframe', $portfolio->iframe)}}" class="form-control" placeholder="iframe, videos, musica, etc.">
+
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <!-- /.card-body -->
 
@@ -129,15 +140,15 @@
                                         <div class="form-group">
                                             <label id="select2">Selecciona una categoria</label>
                                             <div class="select2-dark">
-                                                <select name="category_id" class="select2 {{ $errors->has('category_p_id') ? 'is-invalid' : '' }}" data-placeholder="Selecciona una categoria"  data-dropdown-css-class="select2-dark" style="width: 100%;"  >
+                                                <select name="category_p_id" class="select2 {{ $errors->has('category_p_id') ? 'is-invalid' : '' }}" data-placeholder="Selecciona una categoria"  data-dropdown-css-class="select2-dark" style="width: 100%;"  >
                                                     @foreach( $categorie_ps as $category_p)
-                                                        <option value="{{ $category_p->id}}"  {{ old('category_p_id', $portfolio->category_p_id) === $category_p->id ?  'select' : '' }}>{{ $category_p->name }}</option>
+                                                        <option value="{{ $category_p->id}}"  {{ old('category_p_id', $portfolio->category_p_id) === $category_p->id ?  'selected="selected"' : '' }}>{{ $category_p->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
                                             {{--                                                mensaje de error--}}
                                             <div class="invalid-tooltip">
-                                                {{ $errors->first('category_id', 'el campo etiquetas es obligatorio')}}
+                                                {{ $errors->first('category_p_id', 'el campo etiquetas es obligatorio')}}
                                             </div>
 
                                         </div>
@@ -173,7 +184,49 @@
             </div><!-- /.container-fluid -->
         </section>
     </form>
+    @if($portfolio->fotos->count())
+        <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12 ">
+            <!-- card -->
+            <div class="card card-dark text-white bg-gradient-dark">
+                <div class="card-header">
+                    <h3 class="card-title">Imagenes del post</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <div class="album py-5 bg-gradient-dark">
+                        <div class="container-fluid">
+                            <div class="row">
+                                @foreach($portfolio->fotos as $foto )
+                                    <div class="col-md-2">
+                                        <div class="card mb-2 shadow-sm">
+                                            <img src="{{ url($foto->url) }}" class="bd-placeholder-img card-img-top" width="100%" height="225" >
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <div class="btn-group">
+                                                        <form method="POST" action="{{ route('admin.fotos.destroy', $foto) }}">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-sm btn-outline-danger text-center"><i class="far fa-trash-alt"></i></button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </form>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer">
+                    </div>
+                </div>
+            </div>
+            <!-- /.card -->
 
+        </div>
+    @endif
 @endsection
 
 
@@ -210,12 +263,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="/adminlte/moment/locale/es.js"></script>
     <script src="/adminlte/dropzone/dist/min/dropzone.min.js"></script>
-    @if( $portfolio->image === null)
+
+    @if( $portfolio->portada === null)
         <script>
             function validate(){
                 var inp = document.getElementById('image');
                 if(inp.files.length === 0){
-                    toastr.error('Se requiere Imagen');
+                    toastr.error('Se requiere Imagen portada');
                     inp.focus();
                     return false;
                 }
@@ -241,7 +295,6 @@
             headers: {
                 'X-CSRF-TOKEN': '{{ csrf_token()}}'
             },
-            uploadMultiple: true,
             parallelUploads: 10,
             autoProcessQueue: false,
             init: function() {
@@ -301,10 +354,12 @@
     <script>
         $(document).ready(function() {
             $( '.select2bs4' ).select2({
-                language: "es"
+                language: "es",
+                tags:true
             });
             $('.select2').select2({
-                language: "es"
+                language: "es",
+                tags:true
             });
 
 

@@ -1,5 +1,5 @@
 <!-- bradcam_area  -->
-@if( request()->routeIs('blog/*'))
+@if( request()->route()->getName('blog.show') || request()->routeIs('blog'))
 <div class="bradcam_area breadcam_bg_4">
     <div class="container">
         <div class="row">

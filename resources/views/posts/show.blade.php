@@ -1,11 +1,9 @@
 @extends('base')
 @section('meta-title', $post->title)
-@stop
 @section('meta-description', $post->excerpt)
-@stop
 @section('content')
 
-    @include('partials.breadcam')
+@include('partials.breadcam')
     <!--================Blog Area =================-->
     <section class="blog_area single-post-area  section-padding">
         <div class="container">
@@ -15,7 +13,11 @@
                     <!--================publicación Area =================-->
                     <div class="single-post">
                         <div class="feature-img">
+                            @if($post->portada === null)
                             <img class="img-fluid" src="/assets/img/blog/single_blog_2.png" alt="">
+                            @else
+                                <img class="img-fluid" src="/portadas/{{$post->portada}}" alt="">
+                            @endif
                         </div>
                         <ul class="blog-info-link mt-3 mb-4">
                             @foreach( $post->tags as $tag )
@@ -29,6 +31,18 @@
                             <p class="excert">
                                {!!   $post->body !!}
                             </p>
+                            @if($post->photos->count()===1)
+                                <div class="feature-img">
+                                    <img  class="img-fluid" src="{{ $post->photos->first()->url }}"  alt="">
+                                </div>
+                            @elseif($post->photos->count() > 1)
+                                @include('partials.carousel')
+                            @endif
+                            @if($post->iframe)
+                                <div class="embed-responsive embed-responsive-16by9">
+                                    {!! $post->iframe !!}
+                                 </div>
+                            @endif
                         </div>
                     </div>
                     <div class="navigation-top">
@@ -301,4 +315,4 @@
         </div>
     </section>
     <!--================Blog Area =================-->
-    @stop
+@stop
