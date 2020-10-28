@@ -11,11 +11,11 @@ class PagesController extends Controller
     public function inicio(){
         return view('welcome');
     }
-    public function blog(){
-       //
+    public function blog()
+    {
         $posts = Post::published()->paginate();
-
         return view('page.blog', compact('posts'));
+
     }
 
     public function  portfolio(){
@@ -23,5 +23,16 @@ class PagesController extends Controller
         $portfolios = Portfolio::published()->get();
 
         return view('page.portfolio', compact('portfolios'));
+    }
+
+    public function  about(){
+        return view('page.about');
+    }
+    public function  service(){
+        return view('page.service');
+    }
+
+    public function  contact(){
+        return view('page.contact');
     }
 }

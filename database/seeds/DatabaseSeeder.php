@@ -15,9 +15,9 @@ class DatabaseSeeder extends Seeder
         //php artisan make:seeder nombredelatablacon"s"TableSeeder
 
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
+        $this->call(RolesAndPermissions::class);
         $this->call(UsersTableSeeder::class);
         $this->call(PostsTableSeeder::class);
-        $this->call(PortfoliosSeeder::class);
         DB::statement('SET FOREIGN_KEY_CHECKS=1');
     }
 }

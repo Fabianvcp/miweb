@@ -6,12 +6,14 @@
       <w>contenido</w>
       <w>csrf</w>
       <w>datetimepicker</w>
+      <w>endforeach</w>
       <w>endforelse</w>
       <w>endsection</w>
       <w>foto</w>
       <w>fotos</w>
       <w>gallardo</w>
       <w>imagename</w>
+      <w>permisos</w>
       <w>portada</w>
       <w>portadas</w>
       <w>publicación</w>

@@ -2,7 +2,7 @@
     <div class="carousel-inner">
         @foreach($portfolio->fotos as $foto)
             <div class="carousel-item {{ $loop->first ? 'active' : ''}} ">
-                <img src="{{ $foto->url }}" class="d-block img-thumbnail w-100" alt="..." style="height: 50vh;">
+                <img src="/storage/{{ $foto->url }}" class="d-block img-thumbnail w-100" alt="..." style="height: 50vh;">
             </div>
         @endforeach
 

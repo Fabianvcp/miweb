@@ -222,7 +222,7 @@
                             @foreach($post->photos as $photo)
                                         <div class="col-md-2">
                                             <div class="card mb-2 shadow-sm">
-                                                <img src="{{ url($photo->url) }}" class="bd-placeholder-img card-img-top" width="100%" height="225" >
+                                                <img src="/storage/{{ $photo->url }}" class="bd-placeholder-img card-img-top" width="100%" height="225" >
                                                 <div class="card-body">
                                                     <div class="d-flex justify-content-between align-items-center">
                                                         <div class="btn-group">

@@ -307,7 +307,7 @@ return [
 //            'label'       => 4,
 //            'label_color' => 'success',
         ],
-        ['header' => 'Area de Publicación'],
+        ['header' => 'Area de Administración',],
 //        [
 //            'text' => 'profile',
 //            'url'  => 'admin/settings',
@@ -322,36 +322,29 @@ return [
         [
             'text'    => 'Publicaciones',
             'icon'    => 'fas fa-fw fa-bars fa-lg',
-            'url'  => 'admin/post*',
+            'url'  => 'admin/posts*',
+            'can' => 'Posts',
             'submenu' => [
                 [
                     'text' => 'Ver publicaciones',
                     'route'  => 'admin.posts.index',
                     'icon' => 'far fa-list-alt fa-lg'
                 ],
-                [
-                    'text' => 'Crear una publicación',
-                    'classes'=> 'crear_post',
-                    'icon' => 'fas fa-plus-circle fa-lg',
-                ],
             ],
         ],
-        ['header' => 'Portfolio'],
+        ['header' => 'Administración de usuarios',],
+//
         [
-            'text'    => 'Porfolio',
-            'icon'    => 'fas fa-folder fa-lg',
-            'url'  => 'admin/portfolio*',
+            'text'    => 'Usuarios',
+            'icon'    => 'fas fa-users-cog fa-lg',
+            'url'  => 'admin/users*',
+//            'can' => 'Posts',
             'submenu' => [
                 [
-                    'text' => 'Ver publicaciones',
-                    'url'  => 'admin/portfolio',
-                    'icon' => 'far fa-list-alt fa-lg'
+                    'text' => 'Ver Usuarios',
+                    'route'  => 'admin.users.index',
+                    'icon' => 'fas fa-user-cog fa-lg'
                 ],
-//                [
-//                    'text' => 'Crear una publicación',
-//                    'route'  => 'admin.posts.create',
-//                    'icon' => 'fas fa-plus-circle fa-lg',
-//                ],
             ],
         ],
         ['header' => 'labels'],

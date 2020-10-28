@@ -16,9 +16,9 @@ use Intervention\Image\Facades\Image;
 class PostsController extends Controller
 {
 
-    public function index() {
-
-        $posts= Post::all();
+    public function index()
+    {
+        $posts = Post::allowed()->get();
         return view('admin.posts.index', compact('posts'));
     }
 
@@ -31,25 +31,31 @@ class PostsController extends Controller
 
     public function store(Request $request)
     {
+        //$this->authorize('create', new Post);
         $this->validate($request, [
             'title' => 'required|min:3'
         ]);
-
-        $post = Post::create($request->only('title'));
-
+        //$post = Post::create($request->only('title'));
+        $post = Post::create([$request->all()]);
         return redirect()->route('admin.posts.edit', $post);
     }
+
     public function edit(Post $post)
     {
+       // $this->authorize('view', $post);
 
-        $categories= Category::all();
-        $tags= Tag::all();
-        return view('admin.posts.edit', compact('categories','tags','post'));
+        return view('admin.posts.edit',[
+            'categories' =>Category::all(),
+            'tags' => Tag::all(),
+            'post' => $post
+        ]);
+
     }
 
     public function update(Post $post , StorePostRequest $request)
     {
 
+        $this->authorize('update', $post);
 
         //almacenar datos en databases
         //return Post::create($request->all());
@@ -100,5 +106,12 @@ class PostsController extends Controller
         $post->tags()->sync($request->get('tags'));
         toastr()->success($request->get('excerpt'), $request->get('title'), ['timeOut' => 5000]);
       return redirect()->route('admin.posts.edit', $post);
+    }
+    public function destroy(Post $post){
+        $this->authorize('delete', $post);
+        $post->delete();
+        toastr()->success('La publicación ha sido eliminada','Eliminación', ['timeOut' => 5000]);
+        return redirect()->route('admin.posts.index');
+
     }
 }

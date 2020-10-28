@@ -38,56 +38,14 @@
     </div>
         <!--/ gallery -->
 
-        <!-- testmonial_area start  -->
-        <div class="testmonial_area">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xl-10 offset-xl-1">
-                        <div class="testmonial_active2 owl-carousel">
-                            <div class="single_slider text-center" data-dot='<img src="img/testmonial/1.png" alt="#" '>
-                                <p>These cases are perfectly simple and easy to distinguish. In a free hour, when our power of choice is untrammelled and when nothing prevents our being able.</p>
-                                <div class="author_name text-center">
-                                    <h4>Robert Jonson</h4>
-                                    <span> Business Owner</span>
-                                </div>
-                            </div>
-                            <div class="single_slider text-center" data-dot='<img src="img/testmonial/1.png" alt="#" '>
-                                <p>These cases are perfectly simple and easy to distinguish. In a free hour, when our power of choice is untrammelled and when nothing prevents our being able.</p>
-                                <div class="author_name text-center">
-                                    <h4>Robert Jonson</h4>
-                                    <span> Business Owner</span>
-                                </div>
-                            </div>
-                            <div class="single_slider text-center" data-dot='<img src="img/testmonial/1.png" alt="#" '>
-                                <p>These cases are perfectly simple and easy to distinguish. In a free hour, when our power of choice is untrammelled and when nothing prevents our being able.</p>
-                                <div class="author_name text-center">
-                                    <h4>Robert Jonson</h4>
-                                    <span> Business Owner</span>
-                                </div>
-                            </div>
-                        </div>
+    {{--/testimonial_area--}}
+    @include('partials.testmonial_area')
+    {{--/testimonial_area--}}
 
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- testmonial_area end  -->
+    <!-- project  -->
+    @include('partials.project_area')
+    <!--/ project  -->
 
-        <!-- project  -->
-        <div class="project_area">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xl-12">
-                        <div class="project_info text-center">
-                            <h3>Do you Have any Project?</h3>
-                            <p>Nam libero tempore, cum soluta nobis est eligendi optio <br> cumque nihil impedit quo minus.</p>
-                            <a href="#" class="boxed-btn3-white">Contact Us</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!--/ project  -->
 
-    <!--================Blog Area =================-->
-@stop()
+    <!--================ portfolio Area =================-->
+@endsection

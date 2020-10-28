@@ -2,7 +2,7 @@
     <div class="carousel-inner">
         @foreach($post->photos as $photo)
             <div class="carousel-item {{ $loop->first ? 'active' : ''}} ">
-                <img src="{{ $photo->url }}" class="d-block img-thumbnail w-100" alt="...">
+                <img src="/storage/{{ $photo->url }}" class="d-block img-thumbnail w-100" alt="...">
             </div>
         @endforeach
 

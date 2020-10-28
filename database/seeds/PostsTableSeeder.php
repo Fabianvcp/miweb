@@ -20,6 +20,8 @@ class PostsTableSeeder extends Seeder
         //limpiar storage de imagenes
         //Storage::disk('public')->deleteDirectory('post');
         //limpie la tabla y no ingrese los mismo valor dos veces
+
+        Storage::disk('public')->deleteDirectory('posts');
         Post::truncate();
         Category::truncate();
         Tag::truncate();
@@ -41,7 +43,7 @@ Morbi posuere venenatis ipsum, ac vestibulum quam dignissim efficitur. Ut vitae 
 
         $post->published_at = Carbon::now()->subDay(4);    //decir que dia se creo con subDays
         $post->category_id =  1;
-        //$post->user_id =  1;
+        $post->user_id =  1;
 
         $post->save();
 
@@ -56,7 +58,7 @@ Morbi posuere venenatis ipsum, ac vestibulum quam dignissim efficitur. Ut vitae 
 Morbi posuere venenatis ipsum, ac vestibulum quam dignissim efficitur. Ut vitae rutrum augue, in volutpat quam.   Cras a viverra ipsum. Aenean ut consequat ex, vitae vulputate nunc. Vestibulum metus nisi, aliquam sed tincidunt sit amet, pretium et augue.</p>";
         $post->published_at = Carbon::now()->subDay(3);
         $post->category_id =  1;
-        //$post->user_id =  2;
+        $post->user_id =  2;
         $post->save();
 
         $post->tags()->attach(Tag::create(['name' => 'Etiqueta 2']));
@@ -69,7 +71,7 @@ Morbi posuere venenatis ipsum, ac vestibulum quam dignissim efficitur. Ut vitae 
 Morbi posuere venenatis ipsum, ac vestibulum quam dignissim efficitur. Ut vitae rutrum augue, in volutpat quam.   Cras a viverra ipsum. Aenean ut consequat ex, vitae vulputate nunc. Vestibulum metus nisi, aliquam sed tincidunt sit amet, pretium et augue.</p>";
         $post->published_at = Carbon::now()->subDay(2);
         $post->category_id =  2;
-        //$post->user_id =  1;
+        $post->user_id =  1;
         $post->save();
 
         $post->tags()->attach(Tag::create(['name' => 'Etiqueta 3']));
@@ -82,7 +84,7 @@ Morbi posuere venenatis ipsum, ac vestibulum quam dignissim efficitur. Ut vitae 
 Morbi posuere venenatis ipsum, ac vestibulum quam dignissim efficitur. Ut vitae rutrum augue, in volutpat quam.   Cras a viverra ipsum. Aenean ut consequat ex, vitae vulputate nunc. Vestibulum metus nisi, aliquam sed tincidunt sit amet, pretium et augue.</p>";
         $post->published_at = Carbon::now()->subDay(1);
         $post->category_id =  2;
-        //$post->user_id =  2;
+        $post->user_id =  2;
         $post->save();
 
 

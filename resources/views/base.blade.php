@@ -136,33 +136,6 @@
 
 <!-- link that opens popup -->
 
-<!-- form itself end-->
-<form id="test-form" class="white-popup-block mfp-hide">
-    <div class="popup_box ">
-        <div class="popup_inner">
-            <div class="popup_header">
-                <h3>Get Free Quote</h3>
-            </div>
-            <div class="custom_form">
-                <div class="row">
-                    <div class="col-xl-12">
-                        <input type="text" placeholder="Your Name">
-                    </div>
-                    <div class="col-xl-12">
-                        <input type="email" placeholder="Email">
-                    </div>
-                    <div class="col-xl-12">
-                        <textarea name="" id="" cols="30" rows="10" placeholder="Message"></textarea>
-                    </div>
-                    <div class="col-xl-12">
-                        <button type="submit" class="boxed-btn3">Send</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</form>
-<!-- form itself end -->
 
 <!-- JS here -->
 <script>
