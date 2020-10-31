@@ -345,6 +345,11 @@ return [
                     'route'  => 'admin.users.index',
                     'icon' => 'fas fa-user-cog fa-lg'
                 ],
+                [
+                    'text' => 'Crear Usuarios',
+                    'route'  => 'admin.users.create',
+                    'icon' => 'fas fa-user-plus'
+                ],
             ],
         ],
         ['header' => 'labels'],
@@ -513,6 +518,16 @@ return [
                     'type' => 'js',
                     'asset' => true,
                     'location' => 'https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js',
+                ],
+            ],
+        ],
+        'icheck-bootstrap' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'css',
+                    'asset' => true,
+                    'location' => 'https://cdnjs.cloudflare.com/ajax/libs/icheck-bootstrap/3.0.1/icheck-bootstrap.min.css',
                 ],
             ],
         ],

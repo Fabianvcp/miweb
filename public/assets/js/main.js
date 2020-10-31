@@ -182,22 +182,22 @@ center: true,
   });
 
   // filter items on button click
-  $('.portfolio-menu').on('click', 'button', function () {
+  $('.perfil-menu').on('click', 'button', function () {
     var filterValue = $(this).attr('data-filter');
     $grid.isotope({ filter: filterValue });
   });
 
   //for menu active class
-  $('.portfolio-menu button').on('click', function (event) {
+  $('.perfil-menu button').on('click', function (event) {
     $(this).siblings('.active').removeClass('active');
     $(this).addClass('active');
     event.preventDefault();
 	});
-  
+
   // wow js
   new WOW().init();
 
-  // counter 
+  // counter
   $('.counter').counterUp({
     delay: 10,
     time: 10000
@@ -372,7 +372,7 @@ $(document).ready(function() {
 
 
 
-//------- Mailchimp js --------//  
+//------- Mailchimp js --------//
 function mailChimp() {
   $('#mc_embed_signup').find('form').ajaxChimp();
 }
@@ -396,4 +396,4 @@ mailChimp();
             $("#search_input").focus();
         });
 
-})(jQuery);	
+})(jQuery);

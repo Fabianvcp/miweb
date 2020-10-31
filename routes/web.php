@@ -32,7 +32,12 @@ Route::group(['prefix'=>'admin','namespace' => 'admin',  'middleware' => 'auth' 
     Route::get('home', 'HomeController@index')->name('home');
     //post
     Route::resource('posts','PostsController', ['except' => 'show', 'as' =>  'admin']);
+    //user
     Route::resource('users','UsersController', ['as' =>  'admin']);
+    //rol
+    Route::put('users/{user}/roles', 'UsersRolesController@update')->name('admin.users.roles.update');
+    //permisos
+    Route::put('users/{user}/permisos', 'UsersPermissionsController@update')->name('admin.users.permissions.update');
 
     //photo
     Route::post('posts/{post}/photos', 'PhotosController@store')->name('admin.posts.photos.store');

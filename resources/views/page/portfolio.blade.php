@@ -16,7 +16,7 @@
                                 <img src="/galeria/{{ $portfolio->image }}" alt="">
                             </div>
                             <div class="gallery_hover">
-                                <a href="{{ route('portfolio.show', $portfolio) }}" class="hover_inner">
+                                <a href="{{ route('perfil', $portfolio) }}" class="hover_inner">
                                     <h3>{{ $portfolio->title }}</h3>
                                     <span>{{ $portfolio->category_p->name }}</span>
                                 </a>
@@ -47,5 +47,5 @@
     <!--/ project  -->
 
 
-    <!--================ portfolio Area =================-->
+    <!--================ perfil Area =================-->
 @endsection

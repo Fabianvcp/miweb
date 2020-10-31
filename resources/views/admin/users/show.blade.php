@@ -18,7 +18,7 @@
                     <div class="card-body box-profile">
                         <div class="text-center">
 {{--                            remplazar con la imagen del usuario que se quiere ver--}}
-                            <img class="profile-user-img img-fluid img-circle"    src="{{ Auth::user()->adminlte_image() }}"   alt="{{ $user->name }}">
+                            <img class="profile-user-img img-fluid img-circle"    src="/perfil/{{ $user->photo}}"   alt="{{ $user->name }}">
                         </div>
 
                         <h3 class="profile-username text-center">{{ $user->name }}</h3>

@@ -4326,16 +4326,16 @@
         },
         {
             "name": "yoeunes/toastr",
-            "version": "v1.2.4",
+            "version": "v1.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yoeunes/toastr.git",
-                "reference": "08babad0c0c479f8feea185143f2b283d22e22ea"
+                "reference": "49bf0e8ade88a1ab4865c01a840ab782d6710719"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yoeunes/toastr/zipball/08babad0c0c479f8feea185143f2b283d22e22ea",
-                "reference": "08babad0c0c479f8feea185143f2b283d22e22ea",
+                "url": "https://api.github.com/repos/yoeunes/toastr/zipball/49bf0e8ade88a1ab4865c01a840ab782d6710719",
+                "reference": "49bf0e8ade88a1ab4865c01a840ab782d6710719",
                 "shasum": ""
             },
             "require": {
@@ -4397,7 +4397,7 @@
                 "toastr js",
                 "yoeunes"
             ],
-            "time": "2020-09-01T23:40:28+00:00"
+            "time": "2020-10-27T13:04:08+00:00"
         }
     ],
     "packages-dev": [

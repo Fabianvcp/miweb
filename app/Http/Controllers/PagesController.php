@@ -22,7 +22,7 @@ class PagesController extends Controller
 
         $portfolios = Portfolio::published()->get();
 
-        return view('page.portfolio', compact('portfolios'));
+        return view('page.perfil', compact('portfolios'));
     }
 
     public function  about(){

@@ -27,7 +27,7 @@ class StorePostRequest extends FormRequest
     public function rules()
     {
         return [
-            'portada' => 'image|mimes:jpeg,png,jpg,gif,svg||max:5300',
+            'portada' => 'image|mimes:jpeg,png,jpg,gif,svg|max:5300',
             'title' => 'required',
             'body' => 'required|min:10',
             'published_at' => 'required',

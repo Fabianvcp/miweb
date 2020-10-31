@@ -9,31 +9,30 @@
 @section('content')
     <div class="col-12">
         <button type="button" class="btn btn-secondary text-center mb-3" data-toggle="modal" data-target="#modal-secondary">
-            Registrar nuevo usuario
+            Crear nueva publicación
         </button>
 
         <div class="card card text-white bg-dark ">
             <div class="card-header">
-                <h3 class="card-title">Listados de usuarios</h3>
+                <h3 class="card-title">Listados de publicaciones</h3>
 
 
             </div>
             <!-- /.card-header -->
             <div class="card-body  container-fluid" >
-                <table id="posts-table"  class="table table-striped table-bordered dt-responsive nowrap text-center" style="width:100%;">
+                <table id="users-table" class="table table-striped table-bordered dt-responsive nowrap text-center" style="width:100%;">
                     <thead>
                     <tr>
                         <th>ID</th>
                         <th>Nombre</th>
                         <th>Email</th>
                         <th>Roles</th>
+                        <th>Registro</th>
                         <th>Acciones</th>
                     </tr>
                     </thead>
-
                     <tbody>
-
-                    @foreach($users as $user)
+                    @foreach ($users as $user)
                         <tr>
                             <td>{{ $user->id }}</td>
                             <td>{{ $user->name }}</td>
@@ -41,18 +40,23 @@
                             <td>{{ $user->getRoleNames()->implode(", ") }}</td>
                             <td>{{  optional($user->created_at)->locale('es')->translatedFormat('l d \d\e F \d\e\l\ Y')}}</td>
                             <td>
-                                <a href="{{ route('admin.users.show', $user)}}" class="btn btn-outline-light btn-secondary"><i class="far fa-eye"></i></a>
+                                <a href="{{ route('admin.users.show', $user)}}" target="_blank" class="btn btn-outline-light btn-secondary"><i class="far fa-eye"></i></a>
                                 <a href="{{ route('admin.users.edit', $user)}}" class="btn btn-warning"><i class="far fa-edit"></i></a>
                                 <form method="POST" action="{{ route('admin.users.destroy', $user) }}" style="display: inline">
                                     @csrf
                                     @method('DELETE')
-                                    <button class="btn btn-danger" onclick="return confirm('¿Estas seguro de eliminar a {{ $user->name }}?')"><i class="far fa-trash-alt"></i></button>
+                                    <button class="btn btn-danger" onclick="return confirm('¿Estas seguro de eliminar {{ $user->title }}?')"><i class="far fa-trash-alt"></i></button>
                                 </form>
                             </td>
                         </tr>
                     @endforeach
-
                     </tbody>
+                    {{--                <tfoot>--}}
+                    {{--                    <tr>--}}
+                    {{--                        <th>Rendering engine</th>--}}
+                    {{--                        <th>Browser</th>--}}
+                    {{--                    </tr>--}}
+                    {{--                </tfoot>--}}
                 </table>
             </div>
             <!-- /.card-body -->
@@ -62,7 +66,6 @@
             </div>
         </div>
     </div>
-
     <div class="modal fade" id="modal-secondary">
         <form action="{{ route('admin.users.store','#create') }}" role="form" method="POST">
             @csrf
@@ -118,16 +121,14 @@
 
 @section('css')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
-
 @stop
 
 @section('js')
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" ></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js" ></script>
     <script>
         $(function () {
-            $('#posts-table').DataTable({
+            $('#users-table').DataTable({
                 "responsive": true,
                 "paging": true,
                 "pagingType": "simple",
@@ -157,7 +158,6 @@
             });
         });
     </script>
-
     @unless( request()->is('admin/users/*'))
         <script>
 
