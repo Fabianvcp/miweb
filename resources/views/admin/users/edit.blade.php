@@ -3,7 +3,7 @@
 @section('title', 'Publicaciones')
 @section('plugins.icheck-bootstrap', true)
 @section('content_header')
-                <h1>Datos del <small>{{ $user->name}}</small></h1> <img class="profile-user-img img-fluid img-circle" src="/perfil/{{ $user->photo}}" alt="{{ $user->name }}">
+                <h1>Datos del <small>{{ $user->name}}</small></h1> <img class="profile-user-img img-fluid img-circle" @if($user->photo !== null) src="/perfil/{{ $user->photo}}" @else src="/perfil/user2-160x160.jpg" @endif   alt="{{ $user->name }}">
 @stop
 
 @section('content')
@@ -11,7 +11,7 @@
             <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-6  col-xs-12 col-sm-12 ">
-                            <form action="{{ route('admin.users.update', $user) }}" method="POST" autocomplete="off" role="form" enctype="multipart/form-data">
+                            <form action="{{ route('admin.users.update', $user) }}" method="POST" autocomplete="off" role="form" enctype="multipart/form-data"  onsubmit="return(validate());">
                                 @csrf
                                 @method('PUT')
                                 <div class="card card-gray-dark">
@@ -21,19 +21,11 @@
                                     <div class="card-body">
 
                                         <div class="form-group">
-                                            <label for="exampleInputFile">Foto Perfil</label>
+                                            <label for="exampleInputFile" class="  {{ $errors->has('photo') ? 'is-invalid' : '' }}">Foto Perfil</label>
                                             {{--  mensaje de error--}}
+                                            <input type="file" name="photo"  id="photo" class="form-control-file">
                                             <div class="invalid-tooltip">
                                                 {{ $errors->first('photo')}}
-                                            </div>
-                                            <div class="input-group">
-                                                <div class="custom-file">
-                                                    <input type="file" name="photo" class="custom-file-input  {{ $errors->has('photo') ? 'is-invalid' : '' }}" id="exampleInputFile">
-                                                    <label class="custom-file-label" for="exampleInputFile">imagen de perfil</label>
-                                                </div>
-                                                <div class="input-group-append">
-                                                    <span class="input-group-text" id=""><i class="fas fa-camera-retro"></i></span>
-                                                </div>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -122,17 +114,28 @@
                                             @method('PUT')
                                                  <div class="form-group clearfix text-center">
                                                     @foreach($roles as $role)
-                                                    <!-- checkbox -->
-                                                        <div class="icheck-midnightblue d-inline mr-5 checkbox-wrapper" data-toggle="popover" title="Permisos de este rol" data-content="{{ $role->permissions->pluck('name')->implode(', ') }}">
-                                                            <input name="roles[]" type="checkbox" id="{{ $role->id }}" {{ $user->roles->contains($role->id) ?'checked' : ''}} value="{{ $role->name }}">
-                                                            <label for="{{ $role->id }}">
-                                                                {{ $role->name }}
-                                                            </label>
-                                                       </div>
-                                                     @endforeach
+                                                         @role('Admin|super-admin')
+                                                            <div class="icheck-midnightblue d-inline mr-5 checkbox-wrapper" data-toggle="popover" title="Permisos de este rol" data-content="{{ $role->permissions->pluck('name')->implode(', ') }}">
+                                                             <input name="roles[]" type="checkbox" id="{{ $role->id }}" {{ $user->roles->contains($role->id) ?'checked' : ''}} value="{{ $role->name }}">
+                                                             <label for="{{ $role->id }}">
+                                                                 {{ $role->name }}
+                                                             </label>
+                                                         </div>
+                                                         @else
+                                                             <div class="icheck-midnightblue d-inline mr-5 checkbox-wrapper" data-toggle="popover" title="Permisos de este rol" data-content="{{ $role->permissions->pluck('name')->implode(', ') }}">
+                                                                 <input name="roles[]" type="checkbox" id="{{ $role->id }}" {{ $user->roles->contains($role->id) ?'checked' : ''}} value="{{ $role->name }}" disabled>
+                                                                 <label for="{{ $role->id }}">
+                                                                     {{ $role->name }}
+                                                                 </label>
+                                                             </div>
+
+                                                         @endrole
+                                                    <!-- checkbox -->  @endforeach
                                                 </div>
                                                 <div class="form-group">
+                                                    @role('Admin')
                                                     <button class="btn btn-flat btn-dark" type="submit">Actualizar roles</button>
+                                                    @endrole
                                                 </div>
                                             </form>
                                         </div>
@@ -147,23 +150,38 @@
                                                 <div class="form-group">
                                                     <div class="container">
                                                         <div class="row">
-                                                         @foreach( $permissions as $id =>$name)
+                                                            @foreach( $permissions as $id =>$name)
+                                                                @role('Admin|super-admin')
                                                                 <div class="col-3 mb-3">
                                                                     <!-- checkbox -->
-                                                                    <div class="icheck-midnightblue d-inline mr-5">
-                                                                        <input name="permissions[]" type="checkbox" id="permission-{{ $id }}" {{ $user->permissions->contains($id) ? 'checked' : ''}} value="{{ $name }}">
+                                                                    <div class="icheck-midnightblue d-inline">
+                                                                        <input name="permissions[]" type="checkbox" id="permission-{{ $id }}"  {{ collect(old('permissions'))->contains($name) ? 'checked' : '' }} value="{{ $name }}">
                                                                         <label for="permission-{{ $id }}">
                                                                             {{ $name }}
                                                                         </label>
                                                                     </div>
-                                                                     <!-- checkbox -->
+                                                                    <!-- checkbox -->
                                                                 </div>
+                                                                @else
+                                                                    <div class="col-3 mb-3">
+                                                                        <!-- checkbox -->
+                                                                        <div class="icheck-midnightblue d-inline">
+                                                                            <input name="permissions[]" type="checkbox" id="permission-{{ $id }}"  {{ collect(old('permissions'))->contains($name) ? 'checked' : '' }} value="{{ $name }}" disabled>
+                                                                            <label for="permission-{{ $id }}">
+                                                                                {{ $name }}
+                                                                            </label>
+                                                                        </div>
+                                                                        <!-- checkbox -->
+                                                                    </div>
+                                                                @endrole
                                                             @endforeach
                                                             </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
+                                                    @role('Admin|super-admin')
                                                     <button class="btn btn-flat btn-dark" type="submit">Actualizar permisos</button>
+                                                    @endrole
                                                 </div>
                                             </form>
                                         </div>
@@ -203,6 +221,17 @@
     @jquery
     @toastr_js
     @toastr_render
+    <script>
+        function validate(){
+            var inp = document.getElementById('photo');
+            if(inp.files.length === 0){
+                toastr.error('Se requiere Imagen portada');
+                inp.focus();
+                return false;
+            }
+        }
+    </script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" ></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js" ></script>
     <script src="/adminlte/inputmask/min/jquery.inputmask.bundle.min.js"></script>
@@ -212,7 +241,7 @@
         });
         $(document).ready(function() {
             $('.checkbox-wrapper').popover({
-                trigger: 'click',
+                trigger: 'focus',
                 template:'<div class="popover bg-dark text-white" role="tooltip"><div class="arrow"></div><h3 class="popover-header bg-dark text-white"></h3><div class="popover-body bg-dark text-white"></div></div>'
             });
         });

@@ -8,6 +8,10 @@ use Illuminate\Http\Request;
 
 class UsersPermissionsController extends Controller
 {
+//    public function __construct()
+//    {
+//        $this->middleware(['role:super-admin|admin']);
+//    }
     public function update(Request $request,User $user)
     {
         $user->permissions()->detach();

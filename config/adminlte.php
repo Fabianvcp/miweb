@@ -332,23 +332,43 @@ return [
                 ],
             ],
         ],
-        ['header' => 'Administración de usuarios',],
-//
         [
             'text'    => 'Usuarios',
             'icon'    => 'fas fa-users-cog fa-lg',
             'url'  => 'admin/users*',
-//            'can' => 'Posts',
+            'can' => 'View_U',
             'submenu' => [
                 [
                     'text' => 'Ver Usuarios',
                     'route'  => 'admin.users.index',
-                    'icon' => 'fas fa-user-cog fa-lg'
+                    'icon' => 'fas fa-user-cog fa-lg',
+                    'can' => 'View_U'
                 ],
                 [
                     'text' => 'Crear Usuarios',
                     'route'  => 'admin.users.create',
-                    'icon' => 'fas fa-user-plus'
+                    'icon' => 'fas fa-user-plus',
+                    'can' => 'Create_u'
+                ],
+            ],
+        ],
+        [
+            'text'    => 'Roles',
+            'icon'    => 'fas fa-user-shield fa-lg',
+            'url'  => 'admin/roles*',
+            'can' => 'View_U',
+            'submenu' => [
+                [
+                    'text' => 'Ver Roles',
+                    'route'  => 'admin.roles.index',
+                    'icon' => 'fas fa-user-tag fa-lg',
+                    'can' => 'Role_v'
+                ],
+                [
+                    'text' => 'Crear Rol',
+                    'route'  => 'admin.roles.create',
+                    'icon' => 'fas fa-user-lock fa-lg',
+                    'can' => 'Role_c'
                 ],
             ],
         ],

@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\UserWasCreated;
 use App\Http\Requests\UpdateUserRequest;
 use App\User;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Intervention\Image\Facades\Image;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -21,7 +25,7 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        $users = User::allowed()->get();
         return view('admin.users.index', compact('users'));
     }
 
@@ -29,10 +33,21 @@ class UsersController extends Controller
      * Show the form for creating a new resource.
      *
      * @return Response
+     * @throws AuthorizationException
      */
     public function create()
     {
-        return view('admin.users.create');
+
+        $this->authorize('create');
+        $user = new User;
+        $roles = Role::where('name', '!=', 'super-admin')->with('permissions')->get();
+        //if( ){
+        $permissions = Permission::where('name', '!=', 'Create role')->pluck('name','id');
+//        }else {
+//            $permissions = Permission::where('name', '!=', 'Create role')->pluck('name', 'id');
+//        }
+
+        return view('admin.users.create', compact('roles','permissions','user'));
     }
 
     /**
@@ -40,10 +55,51 @@ class UsersController extends Controller
      *
      * @param Request $request
      * @return void
+     * @throws AuthorizationException
      */
     public function store(Request $request)
     {
-        //
+
+        $this->authorize('view', new User);
+        // Validar el formulario
+       $data = $request->validate([
+            'photo'=> 'required|image|mimes:jpeg,png,jpg,gif,svg|max:6048',
+            'name' => 'required',
+            'email' => ['required', 'unique:users'],
+            'phone' => 'min:10| max:15',
+            'personal_phrase' => 'required'
+        ]);
+        // Generar una contraseña
+        $data['password'] = Str::random(8);
+
+        // Creamos el usuario
+        $image = $request->file('photo');
+        $input['imagename'] = time() . '.' . $image->getClientOriginalExtension();
+        $destinationPath = public_path('/perfil');
+        $img = Image::make($image->path());
+        $img->resize(300, 300)->save($destinationPath . '/' . $input['imagename']);
+
+        $destinationPath = public_path('/team');
+        $image->move($destinationPath, $input['imagename']);
+        $data['photo'] = $input['imagename'];
+
+        $user = User::create($data);
+
+        // Asignamos los roles
+        if($request->filled('roles')){
+            $user->assignRole($request->roles);
+        }
+        // Asignamos los permisos
+        if($request->filled('permissions')){
+            $user->givePermissionTo($request->permissions);
+        }
+        // Enviamos el email
+        UserWasCreated::dispatch($user, $data['password']);
+        //regresamos al usuario
+        $message="El usuario se ha creado";
+        // Set a success toast, with a title
+        toastr($message, 'success');
+        return redirect()->route('admin.users.index');
     }
 
     /**
@@ -51,9 +107,11 @@ class UsersController extends Controller
      *
      * @param User $user
      * @return void
+     * @throws AuthorizationException
      */
     public function show(User $user)
     {
+        $this->authorize('view', $user);
         return view('admin.users.show', compact('user'));
     }
 
@@ -62,9 +120,11 @@ class UsersController extends Controller
      *
      * @param User $user
      * @return void
+     * @throws AuthorizationException
      */
     public function edit(User $user)
     {
+        $this->authorize('update', $user);
         $roles = Role::where('name', '!=', 'super-admin')->with('permissions')->get();
         //if( ){
             $permissions = Permission::where('name', '!=', 'Create role')->pluck('name','id');
@@ -80,9 +140,11 @@ class UsersController extends Controller
      * @param UpdateUserRequest $request
      * @param User $user
      * @return Request
+     * @throws AuthorizationException
      */
     public function update(UpdateUserRequest $request, User $user)
     {
+        $this->authorize('update', $user);
           if( $user->photo === null) {
             $image = $request->file('photo');
             $input['imagename'] = time() . '.' . $image->getClientOriginalExtension();
@@ -138,11 +200,20 @@ class UsersController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
+     * @param User $user
      * @return void
+     * @throws AuthorizationException
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        //
+        $this->authorize('delete', $user);
+
+        $user->delete();
+
+        $message="El usuario ha sido eliminado";
+        // Set a success toast, with a title
+        toastr($message, 'success');
+        return redirect()->route('admin.users.index');
+
     }
 }

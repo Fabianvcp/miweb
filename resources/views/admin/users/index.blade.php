@@ -8,13 +8,13 @@
 
 @section('content')
     <div class="col-12">
-        <button type="button" class="btn btn-secondary text-center mb-3" data-toggle="modal" data-target="#modal-secondary">
-            Crear nueva publicación
-        </button>
+        <a href="{{ route('admin.users.create') }}" class="btn btn-secondary text-center mb-3" >
+            Crear nuevo usuario
+        </a>
 
         <div class="card card text-white bg-dark ">
             <div class="card-header">
-                <h3 class="card-title">Listados de publicaciones</h3>
+                <h3 class="card-title">Listados de usuarios</h3>
 
 
             </div>
@@ -40,7 +40,7 @@
                             <td>{{ $user->getRoleNames()->implode(", ") }}</td>
                             <td>{{  optional($user->created_at)->locale('es')->translatedFormat('l d \d\e F \d\e\l\ Y')}}</td>
                             <td>
-                                <a href="{{ route('admin.users.show', $user)}}" target="_blank" class="btn btn-outline-light btn-secondary"><i class="far fa-eye"></i></a>
+                                <a href="{{ route('admin.users.show', $user)}}" class="btn btn-outline-light btn-secondary"><i class="far fa-eye"></i></a>
                                 <a href="{{ route('admin.users.edit', $user)}}" class="btn btn-warning"><i class="far fa-edit"></i></a>
                                 <form method="POST" action="{{ route('admin.users.destroy', $user) }}" style="display: inline">
                                     @csrf
@@ -66,43 +66,6 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="modal-secondary">
-        <form action="{{ route('admin.users.store','#create') }}" role="form" method="POST">
-            @csrf
-            <div class="modal-dialog">
-                <div class="modal-content bg-dark">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Título de la publicación</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span></button>
-                    </div>
-                    <div class="modal-body">
-
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <!-- text input -->
-                                <div class="form-group ">
-                                    <label for="title"></label>
-                                    <input id="title" name="title" value="{{ old('title') }}"  type="text" class="form-control {{ $errors->has('title') ? 'is-invalid' : '' }}" placeholder="Titulo" autofocus required>
-                                    {{--                                                mensaje de error--}}
-                                    <div class="invalid-tooltip">
-                                        {{ $errors->first('title')}}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer justify-content-between">
-                        <button type="button" class="btn btn-outline-light" data-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-outline-light">Crear publicación</button>
-                    </div>
-                </div>
-                <!-- /.modal-content -->
-            </div>
-            <!-- /.modal-dialog -->
-        </form>
-    </div>
-    <!-- /.modal -->
 
 @endsection
 
@@ -121,9 +84,13 @@
 
 @section('css')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    @toastr_css
 @stop
 
 @section('js')
+    @jquery
+    @toastr_js
+    @toastr_render
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" ></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js" ></script>
     <script>
@@ -158,19 +125,4 @@
             });
         });
     </script>
-    @unless( request()->is('admin/users/*'))
-        <script>
-
-            if(window.location.hash === '#create'){
-                $('#modal-secondary').modal('show');
-            }
-            $('#modal-secondary').on('hide.bs.modal', function (){
-                window.location.hash ='#';
-            });
-            $('#modal-secondary').on('shown.bs.modal', function (){
-                $('#title').focus();
-                window.location.hash ='#create';
-            });
-        </script>
-    @endunless
 @stop

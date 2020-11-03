@@ -21,20 +21,20 @@ class RolesAndPermissions extends Seeder
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
         // create permissions
-        Permission::create(['name' => 'Create user']);
+        Permission::create(['name' => 'Create users']);
         Permission::create(['name' => 'View users']);
-        Permission::create(['name' => 'Update user']);
-        Permission::create(['name' => 'Delete user']);
+        Permission::create(['name' => 'Update users']);
+        Permission::create(['name' => 'Delete users']);
 
-        Permission::create(['name' => 'Create role']);
+        Permission::create(['name' => 'Create roles']);
         Permission::create(['name' => 'View roles']);
-        Permission::create(['name' => 'Update role']);
-        Permission::create(['name' => 'Delete role']);
+        Permission::create(['name' => 'Update roles']);
+        Permission::create(['name' => 'Delete roles']);
 
-        Permission::create(['name' => 'Create permission']);
+        Permission::create(['name' => 'Create permissions']);
         Permission::create(['name' => 'View permissions']);
-        Permission::create(['name' => 'Update permission']);
-        Permission::create(['name' => 'Delete permission']);
+        Permission::create(['name' => 'Update permissions']);
+        Permission::create(['name' => 'Delete permissions']);
 
         Permission::create(['name' => 'Create posts']);
         Permission::create(['name' => 'View posts']);

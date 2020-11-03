@@ -18,7 +18,7 @@
                     <div class="card-body box-profile">
                         <div class="text-center">
 {{--                            remplazar con la imagen del usuario que se quiere ver--}}
-                            <img class="profile-user-img img-fluid img-circle"    src="/perfil/{{ $user->photo}}"   alt="{{ $user->name }}">
+                            <img class="profile-user-img img-fluid img-circle"    @if($user->photo !== null) src="/perfil/{{ $user->photo}}" @else src="/perfil/user2-160x160.jpg" @endif   alt="{{ $user->name }}">
                         </div>
 
                         <h3 class="profile-username text-center">{{ $user->name }}</h3>
@@ -158,9 +158,11 @@
 
                             <div class="tab-pane" id="settings">
                                 <h2 class="text-center">Permisos extras</h2>
-                                @foreach($user->permissions as $permission)
-                                    <strong>{{ $permissions->name }}</strong>
-                                @endforeach
+                                @forelse($user->permissions as $permission)
+                                    <p class="text-dark">Premisos : <small>{{ $permission->name  }}</small></p>
+                                @empty
+                                    <small class="text-muted">No tiene permisos adicionales</small>
+                                @endforelse
                             </div>
                             <!-- /.tab-pane -->
                         </div>
