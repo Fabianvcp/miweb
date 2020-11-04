@@ -12,7 +12,7 @@ class RolePolicy
 
     public function before(User $user)
     {
-        if ($user->hasRole('Super-admin')) {
+        if ($user->hasRole('Admin') || $user->hasRole('super-admin')) {
             return true;
         }
     }
@@ -34,9 +34,17 @@ class RolePolicy
      * @param Role $role
      * @return mixed
      */
+
+    /**
+     * Determine whether the user can view the model.
+     *
+     * @param User $user
+     * @param Role $role
+     * @return mixed
+     */
     public function view(User $user, Role $role)
     {
-        return $user->hasRole('Admin')  || $user->hasPermissionTo('View roles');
+        return $user->hasRole('Admin') || $user->hasRole('super-admin') || $user->hasPermissionTo('View roles');
     }
 
     /**
@@ -47,7 +55,9 @@ class RolePolicy
      */
     public function create(User $user)
     {
-        return $user->hasRole('Admin')  || $user->hasPermissionTo('Create roles');
+        return $user->hasRole('Admin') || $user->hasRole('super-admin') || $user->hasPermissionTo('Create roles');
+
+
     }
 
     /**
@@ -59,19 +69,24 @@ class RolePolicy
      */
     public function update(User $user, Role $role)
     {
-        return $user->hasRole('Admin')  || $user->hasPermissionTo('Update roles');
+
+        return $user->hasRole('Admin') || $user->hasRole('super-admin') || $user->hasPermissionTo('Update roles');
+
     }
 
     /**
-     * Determine whether the user can delete the model.
-     *
      * @param User $user
      * @param Role $role
-     * @return mixed
+     * @return bool
      */
     public function delete(User $user, Role $role)
     {
-        return $user->hasRole('Admin')  || $user->hasPermissionTo('Delete roles');
+        if ($role->id === 1 || $role->id === 2 ){
+            //throw new \Illuminate\Auth\Access\AuthorizationException('No se puede eleminar este role');
+            $this->deny('No se puede eleminar este role');
+        }
+        return $user->hasRole('Admin') || $user->hasRole('super-admin') || $user->hasPermissionTo('Delete roles');
+
     }
 
     /**

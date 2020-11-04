@@ -19,6 +19,7 @@ class RolesController extends Controller
      */
     public function index()
     {
+        $this->authorize('view', new Role);
         return  view('admin.roles.index',[
             'roles'=> Role::where('name','!=','super-admin')->get()
         ]);
@@ -28,11 +29,13 @@ class RolesController extends Controller
      * Show the form for creating a new resource.
      *
      * @return Response
+     * @throws AuthorizationException
      */
     public function create()
     {
 
-        $permissions = Permission::pluck('name', 'id');
+        $this->authorize('create', new Role);
+        $permissions = Permission::get();
         $role = new Role;
         return  view('admin.roles.create', compact('permissions', 'role'));
     }
@@ -71,8 +74,8 @@ class RolesController extends Controller
      */
     public function edit(Role $role)
     {
-        $this->authorize('update');
-        $permissions = Permission::pluck('name', 'id');
+        $this->authorize('update', $role);
+        $permissions = Permission::get();
         return view('admin.roles.edit', compact('role','permissions'));
     }
 
@@ -86,7 +89,7 @@ class RolesController extends Controller
      */
     public function update(Request $request,Role $role)
     {
-        $this->authorize('update');
+        $this->authorize('update', $role);
         $data =$request->validate([
             'display_name' => 'required'
         ]);
@@ -113,20 +116,12 @@ class RolesController extends Controller
      */
     public function destroy(Role $role)
     {
-        $this->authorize('delete');
-        if ($role->id === 1 || $role->id === 2){
+        $this->authorize('delete',$role);
+        $role->delete();
 
-            $message="No se puede eliminar este rol";
-            // Set a success toast, with a title
-            toastr($message, 'error');
-        }else{
-            $role->delete();
-            $message="El rol  se ha eliminado";
-            // Set a success toast, with a title
-            toastr($message, 'success');
-        }
-
-
+        $message="El rol  se ha eliminado";
+        // Set a success toast, with a title
+        toastr($message, 'success');
         return redirect()->route('admin.roles.index');
     }
 }

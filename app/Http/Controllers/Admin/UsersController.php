@@ -42,7 +42,7 @@ class UsersController extends Controller
         $user = new User;
         $roles = Role::where('name', '!=', 'super-admin')->with('permissions')->get();
         //if( ){
-        $permissions = Permission::where('name', '!=', 'Create role')->pluck('name','id');
+        $permissions = Permission::where('name', '!=', 'Create roles')->pluck('name','id', 'display_name');
 //        }else {
 //            $permissions = Permission::where('name', '!=', 'Create role')->pluck('name', 'id');
 //        }
@@ -127,7 +127,7 @@ class UsersController extends Controller
         $this->authorize('update', $user);
         $roles = Role::where('name', '!=', 'super-admin')->with('permissions')->get();
         //if( ){
-            $permissions = Permission::where('name', '!=', 'Create role')->pluck('name','id');
+            $permissions = Permission::where('name', '!=', 'Create role')->get();
 //        }else {
 //            $permissions = Permission::where('name', '!=', 'Create role')->pluck('name', 'id');
 //        }

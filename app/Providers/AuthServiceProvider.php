@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Policies\PermissionPolicy;
 use App\Policies\PostPolicy;
 use App\Policies\RolePolicy;
 use App\Policies\UserPolicy;
@@ -9,6 +10,7 @@ use App\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 use App\Post;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class AuthServiceProvider extends ServiceProvider
@@ -22,6 +24,7 @@ class AuthServiceProvider extends ServiceProvider
         Post::class => PostPolicy::class,
         User::class => UserPolicy::class,
         Role::class => RolePolicy::class,
+        Permission::class=>PermissionPolicy::class,
     ];
 
     /**
@@ -63,6 +66,12 @@ class AuthServiceProvider extends ServiceProvider
         });
         Gate::define('Role_c', function ($user){
             if($user->hasPermissionto('View roles')){
+                return true;
+            }
+            return false;
+        });
+        Gate::define('permissions_c', function ($user){
+            if($user->hasPermissionto('View permissions')){
                 return true;
             }
             return false;

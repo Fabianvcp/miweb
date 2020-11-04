@@ -118,14 +118,14 @@
                                                             <div class="icheck-midnightblue d-inline mr-5 checkbox-wrapper" data-toggle="popover" title="Permisos de este rol" data-content="{{ $role->permissions->pluck('name')->implode(', ') }}">
                                                              <input name="roles[]" type="checkbox" id="{{ $role->id }}" {{ $user->roles->contains($role->id) ?'checked' : ''}} value="{{ $role->name }}">
                                                              <label for="{{ $role->id }}">
-                                                                 {{ $role->name }}
+                                                                 {{ $role->display_name }}
                                                              </label>
                                                          </div>
                                                          @else
                                                              <div class="icheck-midnightblue d-inline mr-5 checkbox-wrapper" data-toggle="popover" title="Permisos de este rol" data-content="{{ $role->permissions->pluck('name')->implode(', ') }}">
                                                                  <input name="roles[]" type="checkbox" id="{{ $role->id }}" {{ $user->roles->contains($role->id) ?'checked' : ''}} value="{{ $role->name }}" disabled>
                                                                  <label for="{{ $role->id }}">
-                                                                     {{ $role->name }}
+                                                                     {{ $role->display_name }}
                                                                  </label>
                                                              </div>
 
@@ -150,14 +150,14 @@
                                                 <div class="form-group">
                                                     <div class="container">
                                                         <div class="row">
-                                                            @foreach( $permissions as $id =>$name)
+                                                            @foreach( $permissions as $permission)
                                                                 @role('Admin|super-admin')
                                                                 <div class="col-3 mb-3">
                                                                     <!-- checkbox -->
                                                                     <div class="icheck-midnightblue d-inline">
-                                                                        <input name="permissions[]" type="checkbox" id="permission-{{ $id }}"  {{ collect(old('permissions'))->contains($name) ? 'checked' : '' }} value="{{ $name }}">
-                                                                        <label for="permission-{{ $id }}">
-                                                                            {{ $name }}
+                                                                        <input name="permissions[]" type="checkbox" id="permission-{{ $permission->id }}"  {{ collect(old('permissions'))->contains($permission->name) ? 'checked' : '' }} value="{{ $permission->name }}">
+                                                                        <label for="permission-{{ $permission->id }}">
+                                                                            {{ $permission->display_name }}
                                                                         </label>
                                                                     </div>
                                                                     <!-- checkbox -->
@@ -166,9 +166,9 @@
                                                                     <div class="col-3 mb-3">
                                                                         <!-- checkbox -->
                                                                         <div class="icheck-midnightblue d-inline">
-                                                                            <input name="permissions[]" type="checkbox" id="permission-{{ $id }}"  {{ collect(old('permissions'))->contains($name) ? 'checked' : '' }} value="{{ $name }}" disabled>
-                                                                            <label for="permission-{{ $id }}">
-                                                                                {{ $name }}
+                                                                            <input name="permissions[]" type="checkbox" id="permission-{{ $permission->id }}"  {{ collect(old('permissions'))->contains($permission->name) ? 'checked' : '' }} value="{{ $permission->name }}" disabled>
+                                                                            <label for="permission-{{ $permission->id }}">
+                                                                                {{ $permission->display_name }}
                                                                             </label>
                                                                         </div>
                                                                         <!-- checkbox -->

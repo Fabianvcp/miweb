@@ -49,7 +49,7 @@
                                      <form method="POST" action="{{ route('admin.roles.destroy', $role) }}" style="display: inline">
                                          @csrf
                                          @method('DELETE')
-                                         <button class="btn btn-danger" onclick="return confirm('¿Estas seguro de eliminar {{ $role->title }}?')"><i class="far fa-trash-alt"></i></button>
+                                         <button class="btn btn-danger" onclick="return confirm('¿Estas seguro de eliminar {{ $role->name }}?')"><i class="far fa-trash-alt"></i></button>
                                      </form>
                                      @endif
                                  @endrole
@@ -94,7 +94,6 @@
 @stop
 
 @section('js')
-    @jquery
     @toastr_js
     @toastr_render
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" ></script>

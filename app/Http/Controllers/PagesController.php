@@ -35,4 +35,7 @@ class PagesController extends Controller
     public function  contact(){
         return view('page.contact');
     }
+    public function  cierre(){
+        return redirect('/login');
+    }
 }

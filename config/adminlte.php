@@ -372,22 +372,21 @@ return [
                 ],
             ],
         ],
-        ['header' => 'labels'],
         [
-            'text'       => 'important',
-            'icon_color' => 'red',
-            'url'        => '#',
+            'text'    => 'Permisos',
+            'icon'    => 'fas fa-user-shield fa-lg',
+            'url'  => 'admin/permissions*',
+            'can' => 'permissions_c',
+            'submenu' => [
+                [
+                    'text' => 'Ver Permisos',
+                    'route'  => 'admin.permissions.index',
+                    'icon' => 'far fa-id-card fa-lg',
+                    'can' => 'permissions_c'
+                ],
+            ],
         ],
-        [
-            'text'       => 'warning',
-            'icon_color' => 'yellow',
-            'url'        => '#',
-        ],
-        [
-            'text'       => 'information',
-            'icon_color' => 'cyan',
-            'url'        => '#',
-        ],
+
     ],
 
     /*

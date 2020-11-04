@@ -32,7 +32,7 @@
 
                     <p>
                         No pudimos encontrar la página que buscaba.
-                        Mientras tanto, puedes <a href="{{ back() }}">volver atras</a>
+                        Mientras tanto, puedes <a href="{{ route('inicio') }}">volver atras</a>
                     </p>
                 </div>
                 <!-- /.error-content -->

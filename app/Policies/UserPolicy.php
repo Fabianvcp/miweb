@@ -9,9 +9,17 @@ class UserPolicy
 {
     use HandlesAuthorization;
 
+    /**
+     * @param User $user
+     * @return bool
+     */
     public function before(User $user)
     {
-        if ($user->hasRole('Admin') || $user->hasRole('Super-admin')) {
+        if($user->hasRole('Admin')){
+            return true;
+        }
+
+        if($user->hasRole('Super-admin')){
             return true;
         }
     }
