@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Portfolio;
 use App\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 
 class PagesController extends Controller
 {
@@ -36,6 +37,15 @@ class PagesController extends Controller
         return view('page.contact');
     }
     public function  cierre(){
+
+        header("Expires: Fri, 14 Mar 1980 20:53:00 GMT"); //la pagina expira en fecha pasada
+        header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); //ultima actualizacion ahora cuando la cargamos
+        header("Cache-Control: no-cache, must-revalidate"); //no guardar en CACHE
+        header("Pragma: no-cache"); //PARANOIA, NO GUARDAR EN CACHE
+
+        Artisan::call('cache:clear');
+        Artisan::call('route:clear');
+        Artisan::call('config:clear');
         return redirect('/login');
     }
 }
