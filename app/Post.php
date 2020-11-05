@@ -66,6 +66,8 @@ public function owner(){
         }
 
     }
+
+
     //si esta publicado?
     public function isPublished(){
 

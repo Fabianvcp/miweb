@@ -38,14 +38,12 @@ class UsersController extends Controller
     public function create()
     {
 
-        $this->authorize('create');
+        $this->authorize('create', new User);
         $user = new User;
         $roles = Role::where('name', '!=', 'super-admin')->with('permissions')->get();
-        //if( ){
-        $permissions = Permission::where('name', '!=', 'Create roles')->pluck('name','id', 'display_name');
-//        }else {
-//            $permissions = Permission::where('name', '!=', 'Create role')->pluck('name', 'id');
-//        }
+
+        $permissions = Permission::where('name', '!=', 'Create roles')->get();
+
 
         return view('admin.users.create', compact('roles','permissions','user'));
     }
@@ -60,7 +58,7 @@ class UsersController extends Controller
     public function store(Request $request)
     {
 
-        $this->authorize('view', new User);
+        $this->authorize('create', new User);
         // Validar el formulario
        $data = $request->validate([
             'photo'=> 'required|image|mimes:jpeg,png,jpg,gif,svg|max:6048',

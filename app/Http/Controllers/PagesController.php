@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
 use App\Portfolio;
 use App\Post;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Artisan;
+use App\Tag;
+use App\User;
 
 class PagesController extends Controller
 {
@@ -14,16 +15,15 @@ class PagesController extends Controller
     }
     public function blog()
     {
-        $posts = Post::published()->paginate();
-        return view('page.blog', compact('posts'));
+            $posts = Post::published()->paginate();
+            $authors = User::take(4)->get();
+            $categories = Category::take(7)->get();
+            $publicaciones = Post::latest('published_at')->take(5)->get();
+            $tags = Tag::all();
 
-    }
 
-    public function  portfolio(){
+        return view('page.blog', compact('posts','authors','categories','publicaciones','tags'));
 
-        $portfolios = Portfolio::published()->get();
-
-        return view('page.perfil', compact('portfolios'));
     }
 
     public function  about(){
@@ -36,6 +36,8 @@ class PagesController extends Controller
     public function  contact(){
         return view('page.contact');
     }
+
+
     public function  cierre(){
 
         header("Expires: Fri, 14 Mar 1980 20:53:00 GMT"); //la pagina expira en fecha pasada
@@ -43,9 +45,6 @@ class PagesController extends Controller
         header("Cache-Control: no-cache, must-revalidate"); //no guardar en CACHE
         header("Pragma: no-cache"); //PARANOIA, NO GUARDAR EN CACHE
 
-        Artisan::call('cache:clear');
-        Artisan::call('route:clear');
-        Artisan::call('config:clear');
         return redirect('/login');
     }
 }

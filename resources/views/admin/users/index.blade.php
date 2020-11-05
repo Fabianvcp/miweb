@@ -40,13 +40,19 @@
                             <td>{{ $user->getRoleNames()->implode(", ") }}</td>
                             <td>{{  optional($user->created_at)->locale('es')->translatedFormat('l d \d\e F \d\e\l\ Y')}}</td>
                             <td>
-                                <a href="{{ route('admin.users.show', $user)}}" class="btn btn-outline-light btn-secondary"><i class="far fa-eye"></i></a>
-                                <a href="{{ route('admin.users.edit', $user)}}" class="btn btn-warning"><i class="far fa-edit"></i></a>
-                                <form method="POST" action="{{ route('admin.users.destroy', $user) }}" style="display: inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="btn btn-danger" onclick="return confirm('¿Estas seguro de eliminar {{ $user->name }}?')"><i class="far fa-trash-alt"></i></button>
-                                </form>
+                                @can('View users')
+                                    <a href="{{ route('admin.users.show', $user)}}" class="btn btn-outline-light btn-secondary"><i class="far fa-eye"></i></a>
+                                @endcan
+                                @can('Update users')
+                                    <a href="{{ route('admin.users.edit', $user)}}" class="btn btn-warning"><i class="far fa-edit"></i></a>
+                                @endcan
+                                @can('Delete users')
+                                    <form method="POST" action="{{ route('admin.users.destroy', $user) }}" style="display: inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-danger" onclick="return confirm('¿Estas seguro de eliminar {{ $user->name }}?')"><i class="far fa-trash-alt"></i></button>
+                                    </form>
+                                @endcan
                             </td>
                         </tr>
                     @endforeach

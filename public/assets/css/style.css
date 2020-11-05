@@ -5275,14 +5275,7 @@ h6 {
 }
 
 /* line 14, ../../Arafath/CL/CL October/213. Business/HTML/scss/_blog.scss */
-.blog_area a:hover, .blog_area a :hover {
-  background: -webkit-linear-gradient(131deg, #28AE60 0%, #28AE60 99%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-decoration: none;
-  -webkit-transition: 0.5s;
-  transition: 0.5s;
-}
+
 
 /* line 24, ../../Arafath/CL/CL October/213. Business/HTML/scss/_blog.scss */
 .single-blog {

@@ -41,12 +41,17 @@
                         <td>{{  optional($post->published_at)->locale('es')->translatedFormat('l d \d\e F \d\e\l\ Y')}}</td>
                         <td>
                             <a href="{{ route('posts.show', $post)}}" target="_blank" class="btn btn-outline-light btn-secondary"><i class="far fa-eye"></i></a>
+                            @can('Update posts')
                             <a href="{{ route('admin.posts.edit', $post)}}" class="btn btn-warning"><i class="far fa-edit"></i></a>
+                            @endcan
+                            @can('Delete posts')
                             <form method="POST" action="{{ route('admin.posts.destroy', $post) }}" style="display: inline">
                                 @csrf
                                 @method('DELETE')
                                 <button class="btn btn-danger" onclick="return confirm('¿Estas seguro de eliminar {{ $post->title }}?')"><i class="far fa-trash-alt"></i></button>
                             </form>
+                            @endcan
+
                         </td>
                     </tr>
                 @endforeach

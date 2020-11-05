@@ -43,10 +43,11 @@
                 </div>
                 <!-- /.card -->
 
+                @if($user->personal_phrase !== null || $user->phone !== null || $user->personal_phrase !== null )
                 <!-- About Me Box -->
                 <div class="card card-gray-dark">
                     <div class="card-header">
-                        <h3 class="card-title">About Me</h3>
+                        <h3 class="card-title">información del usuario</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -83,6 +84,7 @@
                     <!-- /.card-body -->
                 </div>
                 <!-- /.card -->
+                @endif()
             </div>
             <!-- /.col -->
             <div class="col-md-9">
